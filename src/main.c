@@ -1,8 +1,39 @@
+#include <GLFW/glfw3.h>
 #include <stdio.h>
 
 #include "res/bit_font.ttf.h"
 
-int main() {
-    printf("%d\n", (size_t) (res_bit_font_end - res_bit_font_start));
+int main(void) {
+    GLFWwindow *window;
+
+    /* Initialize the library */
+    if (!glfwInit())
+        return -1;
+
+    /* Create a windowed mode window and its OpenGL context */
+    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    if (!window) {
+        glfwTerminate();
+        return -1;
+    }
+
+    printf("size: %ld", get_bit_font_size());
+
+    /* Make the window's context current */
+    glfwMakeContextCurrent(window);
+
+    /* Loop until the user closes the window */
+    while (!glfwWindowShouldClose(window)) {
+        /* Render here */
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        /* Swap front and back buffers */
+        glfwSwapBuffers(window);
+
+        /* Poll for and process events */
+        glfwPollEvents();
+    }
+
+    glfwTerminate();
     return 0;
 }

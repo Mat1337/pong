@@ -14,6 +14,7 @@ FUNCTION(GENERATE_RESOURCE DIRECTORY INPUT)
 
     # setup the header file location
     set(HEADER_FILE "${DIRECTORY}/${LAST_ITEM}.h")
+    set(SOURCE_FILE "${DIRECTORY}/${LAST_ITEM}.c")
 
     # setup the resource name
     string(FIND ${LAST_ITEM} "." INDEX)
@@ -27,8 +28,24 @@ FUNCTION(GENERATE_RESOURCE DIRECTORY INPUT)
     string(REPLACE "-" "_" RESOURCE_PATH ${RESOURCE_PATH})
     string(REPLACE "." "_" RESOURCE_PATH ${RESOURCE_PATH})
 
-    # write the file to the disk
-    FILE(WRITE ${HEADER_FILE} "#ifndef ${RESOURCE_NAME_UPPER}_D\n#define ${RESOURCE_NAME_UPPER}_D\n\nextern const char res_${RESOURCE_NAME}_start[]   asm(" \"_binary_${RESOURCE_PATH}_start\"");\nextern const char res_${RESOURCE_NAME}_end[]     asm("\"_binary_${RESOURCE_PATH}_end\"");\n\n#endif // ${RESOURCE_NAME_UPPER}_D\n")
+    # write the header file to disk
+    FILE(WRITE ${HEADER_FILE} "")
+    FILE(APPEND ${HEADER_FILE} "#ifndef ${RESOURCE_NAME_UPPER}_D\n")
+    FILE(APPEND ${HEADER_FILE} "#define ${RESOURCE_NAME_UPPER}_D\n\n")
+    FILE(APPEND ${HEADER_FILE} "const char* get_${RESOURCE_NAME}_start();\n")
+    FILE(APPEND ${HEADER_FILE} "const char* get_${RESOURCE_NAME}_end();\n")
+    FILE(APPEND ${HEADER_FILE} "long long get_${RESOURCE_NAME}_size();\n\n")
+    FILE(APPEND ${HEADER_FILE} "#endif // ${RESOURCE_NAME_UPPER}_D\n")
+
+    # write the source file to disk
+    FILE(WRITE ${SOURCE_FILE} "")
+    FILE(APPEND ${SOURCE_FILE} "#include \"${LAST_ITEM}.h\"\n")
+    FILE(APPEND ${SOURCE_FILE} "#include <stdlib.h>\n\n")
+    FILE(APPEND ${SOURCE_FILE} "extern const char* _binary_${RESOURCE_PATH}_start;\n")
+    FILE(APPEND ${SOURCE_FILE} "extern const char* _binary_${RESOURCE_PATH}_end;\n\n")
+    FILE(APPEND ${SOURCE_FILE} "const char* get_${RESOURCE_NAME}_start() {\n return _binary_${RESOURCE_PATH}_start;\n}\n\n")
+    FILE(APPEND ${SOURCE_FILE} "const char* get_${RESOURCE_NAME}_end() {\n return _binary_${RESOURCE_PATH}_end;\n}\n")
+    FILE(APPEND ${SOURCE_FILE} "long long get_${RESOURCE_NAME}_size() {\n return (uintptr_t)&_binary_${RESOURCE_PATH}_end - (uintptr_t)&_binary_${RESOURCE_PATH}_start;\n}\n")
 ENDFUNCTION()
 
 # function that embeds a resource into the executable
