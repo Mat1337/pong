@@ -69,11 +69,10 @@ int main(void) {
     // make current context
     glfwMakeContextCurrent(window_handle);
 
-    // initialize the glew
-    GLenum err = glewInit();
-    if (GLEW_OK != err) {
-        printf("ERR: %s\n", glewGetErrorString(err));
-        exit(1);
+    // initialize the glad
+    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+        glfwTerminate();
+        return -1;
     }
 
     // setup the window callbacks

@@ -203,8 +203,6 @@ int shader_create(char *source, int type) {
 
 
 char *shader_read_source(char *path) {
-    printf("Path: %s\n", path);
-
     // open the file handle
     FILE *file = fopen(path, "r");
     if (file == NULL) {
