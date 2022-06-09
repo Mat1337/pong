@@ -5,22 +5,66 @@
 #include "graphics/font.h"
 #include "graphics/render.h"
 
-int main(void) {
-    GLFWwindow *window;
+typedef struct window_t {
+    int width;
+    int height;
+    int has_focus;
+} WINDOW;
+WINDOW window;
 
-    /* Initialize the library */
+/**
+ * Gets called when the window is resized
+ *
+ * @param window_handle handle of the window that was resized
+ * @param width width that the window was resized to
+ * @param height height that the window as resized to
+ */
+
+void on_window_resize(GLFWwindow *window_handle, int width, int height) {
+    window.width = width;
+    window.height = height;
+}
+
+/**
+ * Gets called when the focus state changes in the window
+ *
+ * @param window_handle handle of the window that was resized
+ * @param focused 1 = gained focus, 0 = lost focus
+ */
+
+void on_window_focus_change(GLFWwindow *window_handle, int focused) {
+    window.has_focus = focused;
+}
+
+int main(void) {
+    // define a new window handle
+    GLFWwindow *window_handle;
+
+    // setup the window settings
+    window.width = 640;
+    window.height = 480;
+    window.has_focus = 1;
+
+    // initialize the library
     if (!glfwInit())
         return -1;
 
-    /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Pong", NULL, NULL);
-    if (!window) {
+    // disable window resizing
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
+    // create a windowed mode window and its opengl context
+    window_handle = glfwCreateWindow(window.width, window.height, "Pong", NULL, NULL);
+    if (!window_handle) {
         glfwTerminate();
         return -1;
     }
 
+    // setup the window callbacks
+    glfwSetWindowSizeCallback(window_handle, &on_window_resize);
+    glfwSetWindowFocusCallback(window_handle, &on_window_focus_change);
+
     /* Make the window's context current */
-    glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(window_handle);
 
     // initialize the font from memory
     if (font_initialize("res/bit_font.ttf", 17) != 0) {
@@ -32,28 +76,32 @@ int main(void) {
     }
 
     /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window)) {
+    while (!glfwWindowShouldClose(window_handle)) {
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
         // setup the 2D rendering
-        render_setup_overlay(640, 480);
+        render_setup_overlay(window.width, window.height);
 
         // push new matrix
         glPushMatrix();
 
         // render text to screen
-        render_text("Hello, World!", 5, 5, 2.0f);
+        render_text(window.has_focus == 1 ? "Pong" : "Paused", 5, 5, 2.0f);
 
         // pop matrix
         glPopMatrix();
 
         /* Swap front and back buffers */
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(window_handle);
 
         /* Poll for and process events */
         glfwPollEvents();
     }
+
+    // free the window callbacks
+    glfwSetWindowSizeCallback(window_handle, NULL);
+    glfwSetWindowFocusCallback(window_handle, NULL);
 
     // free font from memory
     font_free();
