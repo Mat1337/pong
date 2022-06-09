@@ -2,9 +2,7 @@
 // Created by mat on 6/9/2022.
 //
 
-#include "graphics/font.h"
 #include "graphics/render.h"
-#include "graphics/shader.h"
 
 typedef struct window_t {
     int width;
@@ -89,6 +87,9 @@ int main(void) {
     // load all the shaders into the memory
     shader_load_shaders();
 
+    // initialize the renderer
+    render_initialize();
+
     // loop until the user closes the window
     while (!glfwWindowShouldClose(window_handle)) {
         // clear the screen color buffer
@@ -101,7 +102,7 @@ int main(void) {
         glPushMatrix();
 
         // render text to screen
-        render_text(window.has_focus == 1 ? "Hello, World!" : "Paused", 5, 5, 2.0f);
+        render_text(window.has_focus == 1 ? "Hello, World!" : "Paused", 5, 5, 1.0f, 0xffa6119e);
 
         // pop matrix
         glPopMatrix();

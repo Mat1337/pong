@@ -6,6 +6,7 @@
 
 // array that holds all the shaders in memory
 int SHADERS[SHADER_RESERVED];
+int current_shader;
 
 void shader_load_shaders() {
     // load the texture shaders
@@ -13,18 +14,34 @@ void shader_load_shaders() {
 }
 
 void shader_start(SHADER shader) {
+    // update the active shader
+    current_shader = SHADERS[shader];
+
     // use the provided shader
-    glUseProgram(SHADERS[shader]);
+    glUseProgram(current_shader);
 }
 
-void shader_uniform_vec4(SHADER shader, char *name, float x, float y, float z, float w) {
-    int location = glGetUniformLocation(SHADERS[shader], name);
-    glUniform4f(location, x, y, z, w);
+void shader_uniform_vec4(int uniform, float x, float y, float z, float w) {
+    glUniform4f(uniform, x, y, z, w);
+}
+
+int shader_get_uniform(char *name) {
+    // if the shader is not bound
+    if (current_shader == 0) {
+        // return a negative index
+        return -1;
+    }
+
+    // get the uniform location from the current shader
+    return glGetUniformLocation(current_shader, name);
 }
 
 void shader_stop() {
+    // update the active shader
+    current_shader = 0;
+
     // unload active shader
-    glUseProgram(0);
+    glUseProgram(current_shader);
 }
 
 int shader_load(char *name) {

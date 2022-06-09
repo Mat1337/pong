@@ -15,7 +15,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-typedef enum shader_t {
+typedef enum {
     SHADER_TEXTURE = 0,
     SHADER_RESERVED
 } SHADER;
@@ -35,17 +35,24 @@ void shader_load_shaders();
 void shader_start(SHADER shader);
 
 /**
- * Uploads a vector 4 to the shader
+ * Uploads vector of 4 floats
  *
- * @param shader shader that you want to upload to
- * @param name name of the uniform
  * @param x x value vector
  * @param y y value vector
  * @param z z value vector
  * @param w w value vector
  */
 
-void shader_uniform_vec4(SHADER shader, char *name, float x, float y, float z, float w);
+void shader_uniform_vec4(int uniform, float x, float y, float z, float w);
+
+/**
+ * Gets a uniform location based on its name
+ *
+ * @param name name of the uniform
+ * @return location of the uniform in the shaders
+ */
+
+int shader_get_uniform(char *name);
 
 /**
  * Stops any active shaders

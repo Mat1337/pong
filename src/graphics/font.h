@@ -16,7 +16,7 @@
 #include <freetype/ft2build.h>
 #include FT_FREETYPE_H
 
-typedef struct glyph_t {
+typedef struct {
     GLuint texture_id;
     unsigned int width;
     unsigned int height;
@@ -26,7 +26,7 @@ typedef struct glyph_t {
 } GLYPH;
 extern GLYPH g_font_glyph[MAX_GLYPH_COUNT];
 
-typedef struct font_t {
+typedef struct {
     int font_size;
     int line_height;
 } FONT;

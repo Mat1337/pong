@@ -9,6 +9,27 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "font.h"
+#include "color.h"
+#include "shader.h"
+
+typedef struct {
+    char *text;
+    float x;
+    float y;
+    float scale;
+    int color;
+} FONT_ARGS;
+
+// define the macro for calling the render text function
+#define render_text(...) render_text_params((FONT_ARGS){__VA_ARGS__})
+
+/**
+ * Initializes the renderer
+ */
+
+void render_initialize();
+
 /**
  * Sets up the overlay for rendering
  *
@@ -58,6 +79,6 @@ int render_char_quad(char c, float x, float y);
  * @param scale scale of the text
  */
 
-void render_text(char *text, float x, float y, float scale);
+void render_text_params(FONT_ARGS args);
 
 #endif //PONG_CLONE_RENDER_H

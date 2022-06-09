@@ -50,8 +50,8 @@ int font_initialize(char *name, int font_size) {
             return result;
         }
 
-        // define a new glyph
-        GLYPH current_glyph = {
+        // define a new glyph and store it in the glyph map
+        g_font_glyph[i] = (GLYPH) {
                 .width = face->glyph->bitmap.width,
                 .height = face->glyph->bitmap.rows,
                 .advance = face->glyph->advance.x >> 6,
@@ -59,22 +59,16 @@ int font_initialize(char *name, int font_size) {
                 .bearing_y = face->glyph->bitmap_top,
                 .texture_id = font_glyph_upload(face->glyph->bitmap)
         };
-
-        // store it in the glyph map
-        g_font_glyph[i] = current_glyph;
     }
 
-    // define a new font instance
-    FONT font = {
+    // define a new font instance and save it as a global instance
+    g_font = (FONT) {
             .font_size = font_size,
             .line_height =
             ((face->ascender + face->height -
               face->descender + face->underline_thickness +
               face->underline_position) >> 6) - 2
     };
-
-    // save the instance as a global instance
-    g_font = font;
 
     // free the face from memory
     FT_Done_Face(face);
