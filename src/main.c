@@ -60,11 +60,21 @@ int main(void) {
         return -1;
     }
 
+    // make current context
+    glfwMakeContextCurrent(window_handle);
+
+    // initialize the glew
+    GLenum err = glewInit();
+    if (GLEW_OK != err) {
+        printf("ERR: %s\n", glewGetErrorString(err));
+        exit(1);
+    }
+
     // setup the window callbacks
     glfwSetWindowSizeCallback(window_handle, &on_window_resize);
     glfwSetWindowFocusCallback(window_handle, &on_window_focus_change);
 
-    /* Make the window's context current */
+    // make the window's context current
     glfwMakeContextCurrent(window_handle);
 
     // initialize the font from memory
@@ -76,12 +86,12 @@ int main(void) {
         return 1;
     }
 
-    // load the texture shader
-    int id = shader_load("texture");
+    // load all the shaders into the memory
+    shader_load_shaders();
 
-    /* Loop until the user closes the window */
+    // loop until the user closes the window
     while (!glfwWindowShouldClose(window_handle)) {
-        /* Render here */
+        // clear the screen color buffer
         glClear(GL_COLOR_BUFFER_BIT);
 
         // setup the 2D rendering
@@ -91,7 +101,7 @@ int main(void) {
         glPushMatrix();
 
         // render text to screen
-        render_text(window.has_focus == 1 ? "Pong" : "Paused", 5, 5, 2.0f);
+        render_text(window.has_focus == 1 ? "Hello, World!" : "Paused", 5, 5, 2.0f);
 
         // pop matrix
         glPopMatrix();

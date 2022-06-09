@@ -4,6 +4,7 @@
 
 #include "render.h"
 #include "font.h"
+#include "shader.h"
 
 void render_setup_overlay(int width, int height) {
     glMatrixMode(GL_PROJECTION);
@@ -43,7 +44,7 @@ int render_char_quad(char c, float x, float y) {
     GLYPH glyph = font_glyph_bind(c);
 
     // enable blending
-    render_blend(GL_SRC_COLOR, GL_ONE_MINUS_SRC_COLOR);
+    render_blend(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // draw the glyph
     render_textured_quad(x + (float) glyph.bearing_x,
@@ -65,6 +66,12 @@ void render_text(char *text, float x, float y, float scale) {
     // align the texture on the y-axis
     glTranslatef(0, (float) -g_font.line_height / 2.0f, 0);
 
+    // start the texture shader
+    shader_start(SHADER_TEXTURE);
+
+    // upload the color to the shader
+    shader_uniform_vec4(SHADER_TEXTURE, "u_Color", 1, 1, 1, 1);
+
     // define an offset that will store the progress of cursor
     float cursor = 0.0f;
 
@@ -74,6 +81,9 @@ void render_text(char *text, float x, float y, float scale) {
         // render the character and increment the cursor
         cursor += (float) render_char_quad(text[i], x + cursor, y + (float) g_font.line_height);
     }
+
+    // stop the shader
+    shader_stop();
 
     // pop the matrix
     glPopMatrix();
