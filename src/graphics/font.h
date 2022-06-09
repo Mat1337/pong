@@ -53,6 +53,14 @@ int font_initialize(char *name, int font_size);
 GLYPH font_glyph_get(int code);
 
 /**
+ * Binds the glyph texture of the provided key code
+ *
+ * @param code key code that you want to bind the glyph texture for
+ */
+
+GLYPH font_glyph_bind(int code);
+
+/**
  * Uploads the font glyph to the GPU
  *
  * @param glyph_bitmap

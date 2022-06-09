@@ -94,6 +94,20 @@ GLYPH font_glyph_get(int code) {
     return g_font_glyph[code];
 }
 
+GLYPH font_glyph_bind(int code) {
+    // enable the texture rendering
+    glEnable(GL_TEXTURE_2D);
+
+    // get the glyph for the provided key
+    GLYPH glyph = font_glyph_get(code);
+
+    // bind the glyph texture
+    glBindTexture(GL_TEXTURE_2D, glyph.texture_id);
+
+    // return the glyph
+    return glyph;
+}
+
 unsigned int font_glyph_upload(FT_Bitmap glyph_bitmap) {
     // define an unsigned int that the texture id will be stored into
     unsigned int id;
