@@ -4,6 +4,7 @@
 
 #include "graphics/font.h"
 #include "graphics/render.h"
+#include "graphics/shader.h"
 
 typedef struct window_t {
     int width;
@@ -74,6 +75,9 @@ int main(void) {
         // return out of the application
         return 1;
     }
+
+    // load the texture shader
+    int id = shader_load("texture");
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window_handle)) {
