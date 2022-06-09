@@ -39,16 +39,6 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 # add the glfw directory as a sub directory
 add_subdirectory(${GLFW_DIRECTORY})
 
-#################### GLEW #####################
-
-# set the glew directory
-set(GLEW_DIRECTORY "${VENDOR_DIRECTORY}/glew")
-
-# add the glew cmake subdirectory
-add_subdirectory(${GLEW_DIRECTORY}/build/cmake)
-
-################################################
-
 # macro that creates the application executable
 MACRO(ADD_APP name)
     # get all the source files
@@ -61,7 +51,7 @@ MACRO(ADD_APP name)
     target_include_directories(${name} PRIVATE "${GLEW_DIRECTORY}/include")
 
     # link all the libraries
-    target_link_libraries(${name} freetype glfw glew OpenGL::GL)
+    target_link_libraries(${name} freetype glfw OpenGL::GL)
 
     # tell MSVC to use main instead of WinMain for windows subsystem executables
     if (MSVC)

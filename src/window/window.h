@@ -5,7 +5,6 @@
 #ifndef PONG_CLONE_WINDOW_H
 #define PONG_CLONE_WINDOW_H
 
-#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 typedef struct window_t {
