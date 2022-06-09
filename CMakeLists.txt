@@ -7,9 +7,6 @@ set(NAME pong_clone)
 # set the project name
 project(${NAME} C)
 
-# include the resources api
-include(cmake/resource.cmake)
-
 # include the pong cmake configuration
 include(cmake/pong.cmake)
 

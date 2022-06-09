@@ -1,7 +1,11 @@
-#include <GLFW/glfw3.h>
-#include <stdio.h>
+//
+// Created by mat on 6/9/2022.
+//
 
-#include "res/bit_font.ttf.h"
+#include "graphics/font.h"
+
+#include <stdio.h>
+#include <string.h>
 
 int main(void) {
     GLFWwindow *window;
@@ -11,16 +15,23 @@ int main(void) {
         return -1;
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(640, 480, "Pong", NULL, NULL);
     if (!window) {
         glfwTerminate();
         return -1;
     }
 
-    printf("size: %ld", get_bit_font_size());
-
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
+
+    // initialize the font from memory
+    if (font_initialize("res/bit_font.ttf", 17) != 0) {
+        // terminate the glfw
+        glfwTerminate();
+
+        // return out of the application
+        return 1;
+    }
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
@@ -34,6 +45,12 @@ int main(void) {
         glfwPollEvents();
     }
 
+    // free font from memory
+    font_free();
+
+    // terminate the glfw
     glfwTerminate();
+
+    // return out of the application
     return 0;
 }

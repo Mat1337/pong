@@ -13,9 +13,6 @@ set(RESOURCES_DIRECTORY "${CMAKE_HOME_DIRECTORY}/res")
 # setup the sources directory
 set(SOURCES_DIRECTORY "${CMAKE_HOME_DIRECTORY}/src")
 
-# set the resources include directory
-set(RESOURCES_INCLUDE_DIRECTORY "${SOURCES_DIRECTORY}/res")
-
 # macro that creates the application executable
 MACRO(ADD_APP name)
     # set the directory for the header files
@@ -43,18 +40,6 @@ MACRO(ADD_APP name)
     # copy all the library natives to the build directory
     add_custom_command(TARGET ${name} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${LIBRARY_NATIVES_DIRECTORY}" $<TARGET_FILE_DIR:${name}>)
 
-    # get all the source files
-    file(GLOB_RECURSE RESOURCE_LIST "${RESOURCES_DIRECTORY}/*")
-
-    # loop through all the resources
-    FOREACH (RESOURCE ${RESOURCE_LIST})
-        # and add them resource
-        add_resource(${RESOURCE})
-
-        # generate the includes for the resources
-        generate_resource(${RESOURCES_INCLUDE_DIRECTORY} ${RESOURCE})
-    ENDFOREACH ()
-
-    # add all the resources as the dependencies
-    add_custom_target(rc ALL DEPENDS ${RC_DEPENDS})
+    # copy resources to the build directory
+    add_custom_command(TARGET ${name} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_HOME_DIRECTORY}/res/" "$<TARGET_FILE_DIR:${name}>/res/")
 ENDMACRO()
