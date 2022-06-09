@@ -4,8 +4,18 @@
 
 #include "graphics/font.h"
 
-#include <stdio.h>
-#include <string.h>
+void draw_textured_quad(float x, float y, float width, float height) {
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex2f(x, y);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex2f(x, y + height);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex2f(x + width, y + height);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex2f(x + width, y);
+    glEnd();
+}
 
 int main(void) {
     GLFWwindow *window;
@@ -37,6 +47,40 @@ int main(void) {
     while (!glfwWindowShouldClose(window)) {
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
+
+        // setup the 2D rendering
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glViewport(0, 0, 640, 480);
+        glOrtho(0, 640, 480, 0, -1, 1);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        glDisable(GL_DEPTH_TEST);
+
+        // get the glyph for letter 'A'
+        GLYPH glyph = g_font_glyph['A'];
+
+        // push new matrix
+        glPushMatrix();
+        glEnable(GL_TEXTURE_2D);
+
+        // enable blending
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_COLOR, GL_ONE_MINUS_SRC_COLOR);
+
+        // bind the glyph texture
+        glBindTexture(GL_TEXTURE_2D, glyph.texture_id);
+
+        // draw the glyph
+        draw_textured_quad(10, 10, 32, 32);
+
+        // unbind the texture
+        glBindTexture(GL_TEXTURE_2D, 0);
+
+        // pop matrix
+        glDisable(GL_BLEND);
+        glDisable(GL_TEXTURE_2D);
+        glPopMatrix();
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
