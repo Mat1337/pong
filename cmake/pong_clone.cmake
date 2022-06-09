@@ -45,7 +45,7 @@ add_subdirectory(${GLFW_DIRECTORY})
 set(GLEW_DIRECTORY "${VENDOR_DIRECTORY}/glew")
 
 # add the glew cmake subdirectory
-add_subdirectory( ${GLEW_DIRECTORY}/build/cmake)
+add_subdirectory(${GLEW_DIRECTORY}/build/cmake)
 
 ################################################
 
