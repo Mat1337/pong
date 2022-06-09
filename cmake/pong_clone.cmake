@@ -1,5 +1,8 @@
 #################### GLOBAL #####################
 
+# include the external project
+include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
+
 # set the vendor directory
 set(VENDOR_DIRECTORY "${CMAKE_HOME_DIRECTORY}/vendor")
 
@@ -39,6 +42,13 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 # add the glfw directory as a sub directory
 add_subdirectory(${GLFW_DIRECTORY})
 
+#################### GLEW #####################
+
+# set the glfw directory
+set(GLEW_DIRECTORY "${VENDOR_DIRECTORY}/glew")
+
+###############################################
+
 # macro that creates the application executable
 MACRO(ADD_APP name)
     # get all the source files
@@ -47,8 +57,11 @@ MACRO(ADD_APP name)
     # create the executable
     add_executable(${name} "${SOURCE_LIST}")
 
+    # add the glew as a dependency
+    add_dependencies(${name} GLEW)
+
     # set the directory for the header files
-    target_include_directories(${name} PRIVATE "${GLEW_DIRECTORY}/include")
+    # target_include_directories(${name} PRIVATE "${GLEW_DIRECTORY}/include")
 
     # link all the libraries
     target_link_libraries(${name} freetype glfw OpenGL::GL)
