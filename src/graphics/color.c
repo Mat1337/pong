@@ -4,6 +4,14 @@
 
 #include "color.h"
 
+/**
+ * Gets a color from rgba value
+ *
+ * @param argb argb value that you want to generate the color from
+ * @return color struct
+ */
+
+
 COLOR color_get(int argb) {
     return (COLOR) {
             .r = (float) ((argb >> 16) & 0xFF) / 255.0f,

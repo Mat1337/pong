@@ -8,10 +8,20 @@
 int SHADERS[SHADER_RESERVED];
 int current_shader;
 
+/**
+ * Loads all the shaders into memory
+ */
+
 void shader_load_shaders() {
     // load the texture shaders
     SHADERS[SHADER_TEXTURE] = shader_load("texture");
 }
+
+/**
+ * Starts the provided shader program
+ *
+ * @param shader shader that you want to start
+ */
 
 void shader_start(SHADER shader) {
     // update the active shader
@@ -21,9 +31,25 @@ void shader_start(SHADER shader) {
     glUseProgram(current_shader);
 }
 
+/**
+ * Uploads vector of 4 floats
+ *
+ * @param x x value vector
+ * @param y y value vector
+ * @param z z value vector
+ * @param w w value vector
+ */
+
 void shader_uniform_vec4(int uniform, float x, float y, float z, float w) {
     glUniform4f(uniform, x, y, z, w);
 }
+
+/**
+ * Gets a uniform location based on its name
+ *
+ * @param name name of the uniform
+ * @return location of the uniform in the shaders
+ */
 
 int shader_get_uniform(char *name) {
     // if the shader is not bound
@@ -36,6 +62,10 @@ int shader_get_uniform(char *name) {
     return glGetUniformLocation(current_shader, name);
 }
 
+/**
+ * Stops any active shaders
+ */
+
 void shader_stop() {
     // update the active shader
     current_shader = 0;
@@ -43,6 +73,13 @@ void shader_stop() {
     // unload active shader
     glUseProgram(current_shader);
 }
+
+/**
+ * Loads a shader from the resource
+ *
+ * @param name name of the shader that you want to load
+ * @return id of the shader that was created
+ */
 
 int shader_load(char *name) {
     // get the paths to the shader files
@@ -68,6 +105,14 @@ int shader_load(char *name) {
     // return the shader id
     return shader;
 }
+
+/**
+ * Loads the shader from the vertex & fragment shader files
+ *
+ * @param vertex path to the vertex shader file
+ * @param fragment path to the fragment shader file
+ * @return id of the shader that was created
+ */
 
 int shader_load_from_path(char *vertex, char *fragment) {
     // read the vertex source
@@ -107,6 +152,14 @@ int shader_load_from_path(char *vertex, char *fragment) {
     return shader;
 }
 
+/**
+ * Creates a shader from the source
+ *
+ * @param source source of the shader that you want to create
+ * @param type type of shader that it is
+ * @return id of the shader that was created
+ */
+
 int shader_create(char *source, int type) {
     // create the shader id based on the shader type
     int shader_id = glCreateShader(type);
@@ -140,6 +193,14 @@ int shader_create(char *source, int type) {
     // return the id of the shader that was created
     return shader_id;
 }
+
+/**
+ * Reads the source code of the shader
+ *
+ * @param path path to the shader file that you want to read
+ * @return source code of the shader
+ */
+
 
 char *shader_read_source(char *path) {
     printf("Path: %s\n", path);
@@ -179,9 +240,24 @@ char *shader_read_source(char *path) {
     return data;
 }
 
+/**
+ * Gets the resource path to the shader file
+ *
+ * @param name name of the shader that you want to get
+ * @param type type of the shader that you want to get
+ * @return path in the resource to the shader
+ */
+
 char *shader_get_path(char *path, char *name, char *type) {
+    // calculate the size of the new buffer
     size_t size = strlen(path) + strlen(name) + strlen(type) + 1;
-    char *buffer = (char *) malloc(size);
+
+    // allocate the new buffer
+    char *buffer = (char *) calloc(size, sizeof(char));
+
+    // append the combined strings into the buffer
     snprintf(buffer, size, "%s%s%s", path, name, type);
+
+    // return the buffer
     return buffer;
 }

@@ -9,6 +9,10 @@
 // location of the color uniform in the texture shader
 int shader_texture_color_uniform;
 
+/**
+ * Initializes the renderer
+ */
+
 void render_initialize() {
     // start the shader
     shader_start(SHADER_TEXTURE);
@@ -20,6 +24,13 @@ void render_initialize() {
     shader_stop();
 }
 
+/**
+ * Sets up the overlay for rendering
+ *
+ * @param width width of the display
+ * @param height height of the display
+ */
+
 void render_setup_overlay(int width, int height) {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -30,10 +41,27 @@ void render_setup_overlay(int width, int height) {
     glDisable(GL_DEPTH_TEST);
 }
 
+/**
+ * Blend the texture
+ *
+ * @param s_factor source factor of the blend
+ * @param d_factor distance factor of the blend
+ */
+
 void render_blend(GLenum s_factor, GLenum d_factor) {
     glEnable(GL_BLEND);
     glBlendFunc(s_factor, d_factor);
 }
+
+/**
+ * Renders a textured quad on the screen
+ *
+ * @param x x coordinate of the quad
+ * @param y y coordinate of the quad
+ * @param width width of the quad
+ * @param height height of the quad
+ */
+
 
 void render_textured_quad(float x, float y, float width, float height) {
     // begin drawing quads
@@ -59,6 +87,15 @@ void render_textured_quad(float x, float y, float width, float height) {
     glEnd();
 }
 
+/**
+ * Renders a character quad on the screen
+ *
+ * @param c character that you want to render
+ * @param x x coordinate of the quad
+ * @param y y coordinate of the quad
+ * @return offset for the cursor
+ */
+
 int render_char_quad(char c, float x, float y) {
     // bind the C glyph
     GLYPH glyph = font_glyph_bind(c);
@@ -72,6 +109,15 @@ int render_char_quad(char c, float x, float y) {
     // return the advance for the current glyph
     return (int) glyph.advance;
 }
+
+/**
+ * Renders text on the screen
+ *
+ * @param text text that you want to render
+ * @param x x coordinate of the quad
+ * @param y y coordinate of the quad
+ * @param scale scale of the text
+ */
 
 void render_text_params(FONT_ARGS args) {
     // get the scale from the arguments

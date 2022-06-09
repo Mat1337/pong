@@ -13,6 +13,14 @@ FONT g_font;
 // handle of the free type library
 FT_Library ft_handle;
 
+/**
+ * Initializes the font
+ *
+ * @param name name of the font that you want to load
+ * @param font_size size of the font
+ * @return 0 = loaded
+ */
+
 int font_initialize(char *name, int font_size) {
     // initialize the freetype library
     int result = FT_Init_FreeType(&ft_handle);
@@ -77,6 +85,13 @@ int font_initialize(char *name, int font_size) {
     return 0;
 }
 
+/**
+ * Returns the glyph that matches the provided key code
+ *
+ * @param code key code that you want to get the glyph for
+ * @return instance of the glyph struct
+ */
+
 GLYPH font_glyph_get(int code) {
     // if the provided code is larger than the max glyph count
     if (code > MAX_GLYPH_COUNT) {
@@ -87,6 +102,12 @@ GLYPH font_glyph_get(int code) {
     // else return the glyph that matches the code
     return g_font_glyph[code];
 }
+
+/**
+ * Binds the glyph texture of the provided key code
+ *
+ * @param code key code that you want to bind the glyph texture for
+ */
 
 GLYPH font_glyph_bind(int code) {
     // enable the texture rendering
@@ -101,6 +122,13 @@ GLYPH font_glyph_bind(int code) {
     // return the glyph
     return glyph;
 }
+
+/**
+ * Uploads the font glyph to the GPU
+ *
+ * @param glyph_bitmap
+ * @return id of the texture that was upload to the GPU
+ */
 
 unsigned int font_glyph_upload(FT_Bitmap glyph_bitmap) {
     // define an unsigned int that the texture id will be stored into
@@ -140,6 +168,10 @@ unsigned int font_glyph_upload(FT_Bitmap glyph_bitmap) {
     // return the id of the texture
     return id;
 }
+
+/**
+ * Frees any data that the font takes in the memory
+ */
 
 void font_free() {
     FT_Done_FreeType(ft_handle);
