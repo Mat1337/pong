@@ -8,8 +8,6 @@
 // maximum amount of glyphs that will be loaded for the font
 #define MAX_GLYPH_COUNT 256
 
-#define GLEW_STATIC
-
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 

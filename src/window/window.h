@@ -35,4 +35,10 @@ void on_window_resize(GLFWwindow *window_handle, int width, int height);
 
 void on_window_focus_change(GLFWwindow *window_handle, int focused);
 
+/**
+ * Closes the window
+ */
+
+extern void window_close();
+
 #endif //PONG_CLONE_WINDOW_H

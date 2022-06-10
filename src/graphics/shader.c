@@ -3,7 +3,9 @@
 //
 
 #include "shader.h"
+
 #include "../util/log.h"
+#include "../window/window.h"
 
 // array that holds all the shaders in memory
 int SHADERS[SHADER_RESERVED];
@@ -109,7 +111,7 @@ int shader_load(char *name) {
         LOG_ERROR("Failed to load the shader: '%s'", name);
 
         // exit the application
-        exit(1);
+        window_close();
     }
 
     // free the paths from memory
@@ -175,6 +177,13 @@ int shader_load_from_path(char *vertex, char *fragment) {
  */
 
 int shader_create(char *source, int type) {
+    // make sure that the shader source is valid
+    if (source == NULL) {
+        LOG_ERROR("Failed to read shader source");
+        window_close();
+        return -1;
+    }
+
     // create the shader id based on the shader type
     int shader_id = glCreateShader(type);
 
@@ -201,7 +210,7 @@ int shader_create(char *source, int type) {
         LOG_ERROR("Failed to Compile Shaders: \n%s", info);
 
         // and exit the application
-        exit(1);
+        window_close();
     }
 
     // return the id of the shader that was created

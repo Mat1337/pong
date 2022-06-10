@@ -65,6 +65,18 @@ void on_close() {
     log_free();
 }
 
+/**
+ * Closes the window
+ */
+
+void window_close() {
+    // call the on close function
+    on_close();
+
+    // terminate the glfw
+    glfwTerminate();
+}
+
 int main(void) {
     // define a new window handle
     GLFWwindow *window_handle;
@@ -84,7 +96,10 @@ int main(void) {
     // create a windowed mode window and its opengl context
     window_handle = glfwCreateWindow(g_window.width, g_window.height, "Pong", NULL, NULL);
     if (!window_handle) {
-        glfwTerminate();
+        // close the window
+        window_close();
+
+        // return out of the method
         return -1;
     }
 
@@ -93,7 +108,10 @@ int main(void) {
 
     // initialize the glad
     if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
-        glfwTerminate();
+        // close the window
+        window_close();
+
+        // return out of the method
         return -1;
     }
 
@@ -106,8 +124,8 @@ int main(void) {
 
     // call the init function
     if (on_init() != 0) {
-        // terminate the glfw
-        glfwTerminate();
+        // close the window
+        window_close();
 
         // return out of the method
         return 1;
@@ -135,11 +153,8 @@ int main(void) {
     glfwSetWindowSizeCallback(window_handle, NULL);
     glfwSetWindowFocusCallback(window_handle, NULL);
 
-    // call the on close function
-    on_close();
-
-    // terminate the glfw
-    glfwTerminate();
+    // close the window
+    window_close();
 
     // return out of the application
     return 0;
