@@ -2,6 +2,7 @@
 // Created by mat on 6/9/2022.
 //
 
+#include "util/log.h"
 #include "graphics/render.h"
 #include "window/window.h"
 
@@ -12,6 +13,9 @@
  */
 
 int on_init() {
+    // initialize the logging system
+    log_initialize("log.txt");
+
     // initialize the font from memory
     if (font_initialize("res/bit_font.ttf", 17) != 0) {
         // return out of the method with an error
@@ -23,6 +27,11 @@ int on_init() {
 
     // initialize the renderer
     render_initialize();
+
+    // log to console that the application has been initialized
+    LOG_INFO("Application has been %s [%d]", "Initialized", glfwGetTime());
+    LOG_WARN("Application has been %s [%d]", "Initialized", glfwGetTime());
+    LOG_ERROR("Application has been %s [%d]", "Initialized", glfwGetTime());
 
     // return 0 meaning initialization was successful
     return 0;
@@ -41,6 +50,18 @@ void on_render() {
 
     // pop matrix
     glPopMatrix();
+}
+
+/**
+ * Gets called before the application closesO
+ */
+
+void on_close() {
+    // free font from memory
+    font_free();
+
+    // free the logging system
+    log_free();
 }
 
 int main(void) {
@@ -113,8 +134,8 @@ int main(void) {
     glfwSetWindowSizeCallback(window_handle, NULL);
     glfwSetWindowFocusCallback(window_handle, NULL);
 
-    // free font from memory
-    font_free();
+    // call the on close function
+    on_close();
 
     // terminate the glfw
     glfwTerminate();
