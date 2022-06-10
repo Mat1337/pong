@@ -5,18 +5,20 @@
 #ifndef PONG_CLONE_WINDOW_H
 #define PONG_CLONE_WINDOW_H
 
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "time_step.h"
 #include "input/mouse.h"
 
+#include "../graphics/render.h"
+
 typedef struct window_t {
+    GLFWwindow *handle;
     int width;
     int height;
     int has_focus;
 } WINDOW;
-
-// global handle for the window
-extern WINDOW g_window;
 
 /**
  * Gets called when the window is resized
@@ -38,9 +40,45 @@ void on_window_resize(GLFWwindow *window_handle, int width, int height);
 void on_window_focus_change(GLFWwindow *window_handle, int focused);
 
 /**
+ * Initializes the window
+ */
+
+void window_initialize();
+
+/**
+ * Runs the window loop
+ */
+
+void window_run();
+
+/**
+ * Frees any memory that the window might take
+ */
+
+void window_free();
+
+/**
  * Closes the window
  */
 
-extern void window_close();
+void window_close();
+
+/**
+ * Gets called every render frame
+ *
+ * @param width width of the window
+ * @param height height of the window
+ * @param mouse_x x coordinate of the mouse in the window
+ * @param mouse_y y coordinate of the mouse in the window
+ * @param time_step time between two render ticks
+ */
+
+extern void on_render(float width, float height, float mouse_x, float mouse_y, float time_step);
+
+/**
+ * Gets called when the window closes
+ */
+
+extern void on_close();
 
 #endif //PONG_CLONE_WINDOW_H

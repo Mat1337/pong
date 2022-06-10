@@ -62,9 +62,15 @@ void on_mouse_release(int button, float x, float y) {
 
 /**
  * Gets called every render frame
+ *
+ * @param width width of the window
+ * @param height height of the window
+ * @param mouse_x x coordinate of the mouse in the window
+ * @param mouse_y y coordinate of the mouse in the window
+ * @param time_step time between two render ticks
  */
 
-void on_render(float width, float height, float mouse_x, float mouse_y) {
+void on_render(float width, float height, float mouse_x, float mouse_y, float time_step) {
     // push new matrix
     glPushMatrix();
 
@@ -72,8 +78,12 @@ void on_render(float width, float height, float mouse_x, float mouse_y) {
     render_set_color(color_get((int) 0xffffffff));
     render_quad_outline(0, 0, width, height, 25.0f);
 
+    // get the time step text
+    static char text[256];
+    sprintf(text, "TimeStep: %f", time_step);
+
     // render text to screen
-    render_text(g_window.has_focus == 1 ? "C is great!" : "Paused", 10, 10, 0xffa6119e);
+    render_text(text, 10, 10, 0xffa6119e);
 
     // pop matrix
     glPopMatrix();
@@ -91,66 +101,9 @@ void on_close() {
     log_free();
 }
 
-/**
- * Closes the window
- */
-
-void window_close() {
-    // call the on close function
-    on_close();
-
-    // terminate the glfw
-    glfwTerminate();
-}
-
 int main(void) {
-    // define a new window handle
-    GLFWwindow *window_handle;
-
-    // setup the window settings
-    g_window.width = 640;
-    g_window.height = 480;
-    g_window.has_focus = 1;
-
-    // initialize the library
-    if (!glfwInit())
-        return -1;
-
-    // disable window resizing
-    glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-
-    // create a windowed mode window and its opengl context
-    window_handle = glfwCreateWindow(g_window.width, g_window.height, "Pong", NULL, NULL);
-    if (!window_handle) {
-        // close the window
-        window_close();
-
-        // return out of the method
-        return -1;
-    }
-
-    // make current context
-    glfwMakeContextCurrent(window_handle);
-
-    // initialize the glad
-    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
-        // close the window
-        window_close();
-
-        // return out of the method
-        return -1;
-    }
-
-    // setup the window callbacks
-    glfwSetWindowSizeCallback(window_handle, &on_window_resize);
-    glfwSetWindowFocusCallback(window_handle, &on_window_focus_change);
-
-    // setup the input callbacks
-    glfwSetMouseButtonCallback(window_handle, &on_mouse_input);
-    glfwSetCursorPosCallback(window_handle, &on_mouse_move);
-
-    // make the window's context current
-    glfwMakeContextCurrent(window_handle);
+    // initialize the window
+    window_initialize();
 
     // call the init function
     if (on_init() != 0) {
@@ -161,31 +114,8 @@ int main(void) {
         return 1;
     }
 
-    // loop until the user closes the window
-    while (!glfwWindowShouldClose(window_handle)) {
-        // clear the screen color buffer
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        // setup the 2D rendering
-        render_setup_overlay(g_window.width, g_window.height);
-
-        // call the render function
-        on_render((float) g_window.width, (float) g_window.height, g_mouse.x, g_mouse.y);
-
-        // swap front and back buffers
-        glfwSwapBuffers(window_handle);
-
-        // Poll for and process events
-        glfwPollEvents();
-    }
-
-    // free the window callbacks
-    glfwSetWindowSizeCallback(window_handle, NULL);
-    glfwSetWindowFocusCallback(window_handle, NULL);
-
-    // free the input callbacks
-    glfwSetMouseButtonCallback(window_handle, NULL);
-    glfwSetCursorPosCallback(window_handle, NULL);
+    // run the window
+    window_run();
 
     // close the window
     window_close();

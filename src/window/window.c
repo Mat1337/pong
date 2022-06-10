@@ -30,3 +30,108 @@ void on_window_resize(GLFWwindow *window_handle, int width, int height) {
 void on_window_focus_change(GLFWwindow *window_handle, int focused) {
     g_window.has_focus = focused;
 }
+
+/**
+ * Initializes the window
+ */
+
+void window_initialize() {
+    // setup the window settings
+    g_window.width = 640;
+    g_window.height = 480;
+    g_window.has_focus = 1;
+
+    // initialize the library
+    if (!glfwInit()) {
+        return;
+    }
+
+    // disable window resizing
+    glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+
+    // create a windowed mode window and its opengl context
+    g_window.handle = glfwCreateWindow(g_window.width, g_window.height, "Pong", NULL, NULL);
+    if (!g_window.handle) {
+        // close the window
+        window_close();
+        return;
+    }
+
+    // make current context
+    glfwMakeContextCurrent(g_window.handle);
+
+    // initialize the glad
+    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+        // close the window
+        window_close();
+
+        // return out of the method
+        return;
+    }
+
+    // setup the window callbacks
+    glfwSetWindowSizeCallback(g_window.handle, &on_window_resize);
+    glfwSetWindowFocusCallback(g_window.handle, &on_window_focus_change);
+
+    // setup the input callbacks
+    glfwSetMouseButtonCallback(g_window.handle, &on_mouse_input);
+    glfwSetCursorPosCallback(g_window.handle, &on_mouse_move);
+}
+
+/**
+ * Runs the window loop
+ */
+
+void window_run() {
+    // loop until the user closes the window
+    while (!glfwWindowShouldClose(g_window.handle)) {
+        // update the time step
+        time_step_update();
+
+        // clear the screen color buffer
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        // setup the 2D rendering
+        render_setup_overlay(g_window.width, g_window.height);
+
+        // call the render function
+        on_render((float) g_window.width, (float) g_window.height,
+                  g_mouse.x, g_mouse.y, time_step_get());
+
+        // swap front and back buffers
+        glfwSwapBuffers(g_window.handle);
+
+        // Poll for and process events
+        glfwPollEvents();
+    }
+}
+
+/**
+ * Frees any memory that the window might take
+ */
+
+void window_free() {
+    // free the window callbacks
+    glfwSetWindowSizeCallback(g_window.handle, NULL);
+    glfwSetWindowFocusCallback(g_window.handle, NULL);
+
+    // free the input callbacks
+    glfwSetMouseButtonCallback(g_window.handle, NULL);
+    glfwSetCursorPosCallback(g_window.handle, NULL);
+}
+
+
+/**
+ * Closes the window
+ */
+
+void window_close() {
+    // free any memory that the window took
+    window_free();
+
+    // call the on close function
+    on_close();
+
+    // terminate the glfw
+    glfwTerminate();
+}
