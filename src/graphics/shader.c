@@ -3,6 +3,7 @@
 //
 
 #include "shader.h"
+#include "../util/log.h"
 
 // array that holds all the shaders in memory
 int SHADERS[SHADER_RESERVED];
@@ -41,6 +42,16 @@ void shader_start(SHADER shader) {
  */
 
 void shader_uniform_vec4(int uniform, float x, float y, float z, float w) {
+    // if the provided uniform location is invalid
+    if (uniform == -1) {
+        // log the error
+        LOG_ERROR("Invalid uniform location: '%d'", uniform);
+
+        // return out of the method
+        return;
+    }
+
+    // upload the values to the gpu
     glUniform4f(uniform, x, y, z, w);
 }
 
@@ -54,6 +65,9 @@ void shader_uniform_vec4(int uniform, float x, float y, float z, float w) {
 int shader_get_uniform(char *name) {
     // if the shader is not bound
     if (current_shader == 0) {
+        // log the error
+        LOG_ERROR("Shader is not bound, please bind a shader before getting the uniform: '%s'", name);
+
         // return a negative index
         return -1;
     }
@@ -92,7 +106,7 @@ int shader_load(char *name) {
     // if the shader failed to load
     if (shader == -1) {
         // print to console that loading the shader has failed
-        printf("ERR: Failed to load the shader\n");
+        LOG_ERROR("Failed to load the shader: '%s'", name);
 
         // exit the application
         exit(1);
@@ -118,14 +132,14 @@ int shader_load_from_path(char *vertex, char *fragment) {
     // read the vertex source
     char *vertex_source = shader_read_source(vertex);
     if (vertex_source == NULL) {
-        printf("ERR: Failed to read vertex source\n");
+        LOG_ERROR("Failed to read vertex source: '%s'", vertex);
         return -1;
     }
 
     // read the fragment source
     char *fragment_source = shader_read_source(fragment);
     if (fragment_source == NULL) {
-        printf("ERR: Failed to read fragment source\n");
+        LOG_ERROR("Failed to read fragment source: '%s'", fragment);
         return -1;
     }
 
@@ -184,7 +198,7 @@ int shader_create(char *source, int type) {
         glGetShaderInfoLog(shader_id, MAX_READ_BUFFER, NULL, &info[0]);
 
         // print the buffer to the console
-        printf("%s\n", info);
+        LOG_ERROR("Failed to Compile Shaders: \n%s", info);
 
         // and exit the application
         exit(1);
@@ -206,6 +220,7 @@ char *shader_read_source(char *path) {
     // open the file handle
     FILE *file = fopen(path, "r");
     if (file == NULL) {
+        LOG_ERROR("Failed to open file: '%s'", path);
         return NULL;
     }
 

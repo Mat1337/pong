@@ -14,7 +14,10 @@
 
 int on_init() {
     // initialize the logging system
-    log_initialize("log.txt");
+    if (log_initialize("log.txt") != 0) {
+        // return out of the method with an error
+        return 1;
+    }
 
     // initialize the font from memory
     if (font_initialize("res/bit_font.ttf", 17) != 0) {
@@ -30,8 +33,6 @@ int on_init() {
 
     // log to console that the application has been initialized
     LOG_INFO("Application has been %s [%d]", "Initialized", glfwGetTime());
-    LOG_WARN("Application has been %s [%d]", "Initialized", glfwGetTime());
-    LOG_ERROR("Application has been %s [%d]", "Initialized", glfwGetTime());
 
     // return 0 meaning initialization was successful
     return 0;
@@ -46,7 +47,7 @@ void on_render() {
     glPushMatrix();
 
     // render text to screen
-    render_text(g_window.has_focus == 1 ? "Hello, World!" : "Paused", 5, 5, 1.0f, 0xffa6119e);
+    render_text(g_window.has_focus == 1 ? "Hello, World!" : "Paused", 5, 5, 0xffa6119e);
 
     // pop matrix
     glPopMatrix();

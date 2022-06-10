@@ -17,8 +17,8 @@ typedef struct {
     char *text;
     float x;
     float y;
-    float scale;
     int color;
+    float scale;
 } FONT_ARGS;
 
 // define the macro for calling the render text function

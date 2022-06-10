@@ -121,7 +121,7 @@ int render_char_quad(char c, float x, float y) {
 
 void render_text_params(FONT_ARGS args) {
     // get the scale from the arguments
-    float scale = args.scale ? args.scale : 1.0f;
+    float scale = args.scale ? args.scale : 1.5f;
 
     // get the color from the arguments
     int argb = args.color ? (int) args.color : 0xffffffff;

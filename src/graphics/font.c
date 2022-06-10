@@ -3,6 +3,7 @@
 //
 
 #include "font.h"
+#include "../util/log.h"
 
 // all the loaded glyphs for the current font
 GLYPH g_font_glyph[MAX_GLYPH_COUNT];
@@ -25,17 +26,15 @@ int font_initialize(char *name, int font_size) {
     // initialize the freetype library
     int result = FT_Init_FreeType(&ft_handle);
     if (result != 0) {
+        LOG_ERROR("Failed to load the FreeType library");
         return result;
-    }
-
-    if (ft_handle == NULL) {
-        return 1;
     }
 
     // load the font face into memory
     FT_Face face;
     result = FT_New_Face(ft_handle, name, 0, &face);
     if (result != 0) {
+        LOG_ERROR("Failed to load the font: '%s'", name);
         FT_Done_FreeType(ft_handle);
         return result;
     }
@@ -43,6 +42,7 @@ int font_initialize(char *name, int font_size) {
     // set the font size
     result = FT_Set_Pixel_Sizes(face, 0, font_size);
     if (result != 0) {
+        LOG_ERROR("Failed to resize the font: '%s', size: '%d'", name, font_size);
         FT_Done_Face(face);
         FT_Done_FreeType(ft_handle);
         return result;
@@ -53,6 +53,7 @@ int font_initialize(char *name, int font_size) {
 
         // load the character
         if (FT_Load_Char(face, i, FT_LOAD_RENDER) != 0) {
+            LOG_ERROR("Failed to load the glyph: '%s', char: '%c', size: '%d'", name, (char) i, font_size);
             FT_Done_Face(face);
             FT_Done_FreeType(ft_handle);
             return result;
