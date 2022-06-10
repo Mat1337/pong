@@ -49,6 +49,31 @@ void render_setup_overlay(int width, int height);
 void render_blend(GLenum s_factor, GLenum d_factor);
 
 /**
+ * Renders a line on the screen
+ *
+ * @param x1 first x coordinate of the line
+ * @param y1 first y coordinate of the line
+ * @param x2 second x coordinate of the line
+ * @param y2 second y coordinate of the line
+ * @param thickness thickness of the line
+ */
+
+void render_line(float x1, float y1, float x2, float y2, float thickness);
+
+/**
+ * Renders a dotted line on the screen
+ *
+ * @param x1 first x coordinate of the line
+ * @param y1 first y coordinate of the line
+ * @param x2 second x coordinate of the line
+ * @param y2 second y coordinate of the line
+ * @param thickness thickness of the line
+ * @param pattern pattern of the dots
+ */
+
+void render_dotted_line(float x1, float y1, float x2, float y2, float thickness, GLushort pattern);
+
+/**
  * Renders a textured quad on the screen
  *
  * @param x x coordinate of the quad

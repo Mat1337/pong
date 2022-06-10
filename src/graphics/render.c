@@ -54,6 +54,80 @@ void render_blend(GLenum s_factor, GLenum d_factor) {
 }
 
 /**
+ * Renders a line on the screen
+ *
+ * @param x1 first x coordinate of the line
+ * @param y1 first y coordinate of the line
+ * @param x2 second x coordinate of the line
+ * @param y2 second y coordinate of the line
+ * @param thickness thickness of the line
+ */
+
+void render_line(float x1, float y1, float x2, float y2, float thickness) {
+    // enable the texture rendering
+    glDisable(GL_TEXTURE_2D);
+
+    // set the line width
+    glLineWidth(thickness);
+
+    // begin drawing quads
+    glBegin(GL_LINE_LOOP);
+
+    // set the top left corner
+    glVertex2f(x1, y1);
+
+    // set the bottom left corner
+    glVertex2f(x2, y2);
+
+    // flush the vertices to the gpu
+    glEnd();
+}
+
+
+/**
+ * Renders a dotted line on the screen
+ *
+ * @param x1 first x coordinate of the line
+ * @param y1 first y coordinate of the line
+ * @param x2 second x coordinate of the line
+ * @param y2 second y coordinate of the line
+ * @param thickness thickness of the line
+ * @param pattern pattern of the dots
+ */
+
+void render_dotted_line(float x1, float y1, float x2, float y2, float thickness, GLushort pattern) {
+    // enable the texture rendering
+    glDisable(GL_TEXTURE_2D);
+
+    // enable the bit attrib
+    glPushAttrib(GL_ENABLE_BIT);
+
+    // set the pattern
+    glLineStipple(1, pattern);
+
+    // set the line width
+    glLineWidth(thickness);
+
+    // enable the line stipple
+    glEnable(GL_LINE_STIPPLE);
+
+    // begin drawing quads
+    glBegin(GL_LINE_LOOP);
+
+    // set the top left corner
+    glVertex2f(x1, y1);
+
+    // set the bottom left corner
+    glVertex2f(x2, y2);
+
+    // flush the vertices to the gpu
+    glEnd();
+
+    // pop the attrib
+    glPopAttrib();
+}
+
+/**
  * Renders a textured quad on the screen
  *
  * @param x x coordinate of the quad
@@ -142,17 +216,20 @@ void render_quad_outline(float x, float y, float width, float height, float thic
     // begin drawing quads
     glBegin(GL_LINE_LOOP);
 
+    // calculate the thickness padding
+    float thickess_padding = thickness / 4.0f;
+
     // set the top left corner
-    glVertex2f(x, y);
+    glVertex2f(x + thickess_padding, y + thickess_padding);
 
     // set the bottom left corner
-    glVertex2f(x, y + height);
+    glVertex2f(x + thickess_padding, y + height - thickess_padding);
 
     // set the top right corner
-    glVertex2f(x + width, y + height);
+    glVertex2f(x + width - thickess_padding, y + height - thickess_padding);
 
     // set the bottom right corner
-    glVertex2f(x + width, y);
+    glVertex2f(x + width - thickess_padding, y + thickess_padding);
 
     // flush the vertices to the gpu
     glEnd();

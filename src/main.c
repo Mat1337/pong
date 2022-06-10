@@ -95,8 +95,14 @@ void on_render(float width, float height, float mouse_x, float mouse_y, float ti
     glPushMatrix();
 
     // draw the while outline around the screen
+    //render_set_color(color_get((int) 0xffffffff));
+    //render_quad_outline(0, 0, width, height, 25.0f);
+
+    // draw the dotted line in the middle
+    float thickness = 1.5f;
     render_set_color(color_get((int) 0xffffffff));
-    render_quad_outline(0, 0, width, height, 25.0f);
+    render_dotted_line((width - thickness) / 2.0f, 35,
+                       (width - thickness) / 2.0f, height - 35, thickness, 0x00FF);
 
     // get the time step text
     static char text[256];
