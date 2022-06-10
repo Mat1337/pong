@@ -106,7 +106,7 @@ void on_render(float width, float height, float mouse_x, float mouse_y, float ti
 
     // get the time step text
     static char text[256];
-    sprintf(text, "TimeStep: %f", time_step);
+    sprintf(text, "Fps: %.1f", time_fps_get());
 
     // render text to screen
     render_text(text, 10, 10, 0xffa6119e);

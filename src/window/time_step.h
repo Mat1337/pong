@@ -14,6 +14,14 @@
 void time_step_update();
 
 /**
+ * Gets the current fps
+ *
+ * @return frames per second
+ */
+
+float time_fps_get();
+
+/**
  * Gets the time step
  *
  * @return time step in between two render ticks in seconds
