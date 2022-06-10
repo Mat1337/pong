@@ -40,6 +40,15 @@ extern FONT g_font;
 int font_initialize(char *name, int font_size);
 
 /**
+ * Gets the width of the text
+ *
+ * @param text text that you want to get the width for
+ * @return width of the text
+ */
+
+int font_get_text_width(char *text);
+
+/**
  * Returns the glyph that matches the provided key code
  *
  * @param code key code that you want to get the glyph for

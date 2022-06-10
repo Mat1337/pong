@@ -60,6 +60,29 @@ void render_blend(GLenum s_factor, GLenum d_factor);
 void render_textured_quad(float x, float y, float width, float height);
 
 /**
+ * Renders a quad on the screen
+ *
+ * @param x x coordinate of the quad
+ * @param y y coordinate of the quad
+ * @param width width of the quad
+ * @param height height of the quad
+ */
+
+void render_quad(float x, float y, float width, float height);
+
+/**
+ * Renders an outline of the quad on the screen
+ *
+ * @param x x coordinate of the quad
+ * @param y y coordinate of the quad
+ * @param width width of the quad
+ * @param height height of the quad
+ * @param thickness thickness of the outline
+ */
+
+void render_quad_outline(float x, float y, float width, float height, float thickness);
+
+/**
  * Renders a character quad on the screen
  *
  * @param c character that you want to render
@@ -80,5 +103,12 @@ int render_char_quad(char c, float x, float y);
  */
 
 void render_text_params(FONT_ARGS args);
+
+/**
+ * Sets the current color that will be used to render
+ * @param color color that you want to use
+ */
+
+void render_set_color(COLOR color);
 
 #endif //PONG_CLONE_RENDER_H

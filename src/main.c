@@ -64,19 +64,23 @@ void on_mouse_release(int button, float x, float y) {
  * Gets called every render frame
  */
 
-void on_render(float mouse_x, float mouse_y) {
+void on_render(float width, float height, float mouse_x, float mouse_y) {
     // push new matrix
     glPushMatrix();
 
+    // draw the while outline around the screen
+    render_set_color(color_get((int) 0xffffffff));
+    render_quad_outline(0, 0, width, height, 25.0f);
+
     // render text to screen
-    render_text(g_window.has_focus == 1 ? "Hello, World!" : "Paused", 5, 5, 0xffa6119e);
+    render_text(g_window.has_focus == 1 ? "C is great!" : "Paused", 10, 10, 0xffa6119e);
 
     // pop matrix
     glPopMatrix();
 }
 
 /**
- * Gets called before the application closesO
+ * Gets called before the application closes
  */
 
 void on_close() {
@@ -113,7 +117,7 @@ int main(void) {
         return -1;
 
     // disable window resizing
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+    glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
     // create a windowed mode window and its opengl context
     window_handle = glfwCreateWindow(g_window.width, g_window.height, "Pong", NULL, NULL);
@@ -166,7 +170,7 @@ int main(void) {
         render_setup_overlay(g_window.width, g_window.height);
 
         // call the render function
-        on_render(g_mouse.x, g_mouse.y);
+        on_render((float) g_window.width, (float) g_window.height, g_mouse.x, g_mouse.y);
 
         // swap front and back buffers
         glfwSwapBuffers(window_handle);

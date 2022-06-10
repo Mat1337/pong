@@ -64,6 +64,9 @@ void render_blend(GLenum s_factor, GLenum d_factor) {
 
 
 void render_textured_quad(float x, float y, float width, float height) {
+    // enable the texture rendering
+    glEnable(GL_TEXTURE_2D);
+
     // begin drawing quads
     glBegin(GL_QUADS);
 
@@ -88,6 +91,74 @@ void render_textured_quad(float x, float y, float width, float height) {
 }
 
 /**
+ * Renders a quad on the screen
+ *
+ * @param x x coordinate of the quad
+ * @param y y coordinate of the quad
+ * @param width width of the quad
+ * @param height height of the quad
+ */
+
+void render_quad(float x, float y, float width, float height) {
+    // enable the texture rendering
+    glDisable(GL_TEXTURE_2D);
+
+    // begin drawing quads
+    glBegin(GL_QUADS);
+
+    // set the top left corner
+    glVertex2f(x, y);
+
+    // set the bottom left corner
+    glVertex2f(x, y + height);
+
+    // set the top right corner
+    glVertex2f(x + width, y + height);
+
+    // set the bottom right corner
+    glVertex2f(x + width, y);
+
+    // flush the vertices to the gpu
+    glEnd();
+}
+
+/**
+ * Renders an outline of the quad on the screen
+ *
+ * @param x x coordinate of the quad
+ * @param y y coordinate of the quad
+ * @param width width of the quad
+ * @param height height of the quad
+ * @param thickness thickness of the outline
+ */
+
+void render_quad_outline(float x, float y, float width, float height, float thickness) {
+    // enable the texture rendering
+    glDisable(GL_TEXTURE_2D);
+
+    // set the line width
+    glLineWidth(thickness);
+
+    // begin drawing quads
+    glBegin(GL_LINE_LOOP);
+
+    // set the top left corner
+    glVertex2f(x, y);
+
+    // set the bottom left corner
+    glVertex2f(x, y + height);
+
+    // set the top right corner
+    glVertex2f(x + width, y + height);
+
+    // set the bottom right corner
+    glVertex2f(x + width, y);
+
+    // flush the vertices to the gpu
+    glEnd();
+}
+
+/**
  * Renders a character quad on the screen
  *
  * @param c character that you want to render
@@ -97,7 +168,7 @@ void render_textured_quad(float x, float y, float width, float height) {
  */
 
 int render_char_quad(char c, float x, float y) {
-    // bind the C glyph
+    // bind the glyph
     GLYPH glyph = font_glyph_bind(c);
 
     // draw the glyph
@@ -124,7 +195,7 @@ void render_text_params(FONT_ARGS args) {
     float scale = args.scale ? args.scale : 1.5f;
 
     // get the color from the arguments
-    int argb = args.color ? (int) args.color : 0xffffffff;
+    int argb = args.color ? (int) args.color : (int) 0xffffffff;
 
     // get the color values
     COLOR color = color_get(argb);
@@ -154,7 +225,8 @@ void render_text_params(FONT_ARGS args) {
     for (int i = 0; i < strlen(args.text); i++) {
 
         // render the character and increment the cursor
-        cursor += (float) render_char_quad(args.text[i], args.x + cursor, args.y + (float) g_font.line_height);
+        cursor += (float) render_char_quad(args.text[i], args.x + cursor,
+                                           args.y + (float) g_font.line_height);
     }
 
     // stop the shader
@@ -162,4 +234,13 @@ void render_text_params(FONT_ARGS args) {
 
     // pop the matrix
     glPopMatrix();
+}
+
+/**
+ * Sets the current color that will be used to render
+ * @param color color that you want to use
+ */
+
+void render_set_color(COLOR color) {
+    glColor4f(color.r, color.g, color.b, color.a);
 }

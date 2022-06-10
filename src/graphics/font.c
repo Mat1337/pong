@@ -87,6 +87,28 @@ int font_initialize(char *name, int font_size) {
 }
 
 /**
+ * Gets the width of the text
+ *
+ * @param text text that you want to get the width for
+ * @return width of the text
+ */
+
+int font_get_text_width(char *text) {
+    // width of the text will be stored in this
+    int width = 0;
+
+    // loop through all the characters in the string
+    for (int i = 0; i < strlen(text); i++) {
+
+        // increment the width by the advance of the glyph
+        width += (int) font_glyph_get(text[i]).advance;
+    }
+
+    // return the width
+    return width;
+}
+
+/**
  * Returns the glyph that matches the provided key code
  *
  * @param code key code that you want to get the glyph for
