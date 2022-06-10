@@ -76,6 +76,7 @@ void window_initialize() {
     // setup the input callbacks
     glfwSetMouseButtonCallback(g_window.handle, &on_mouse_input);
     glfwSetCursorPosCallback(g_window.handle, &on_mouse_move);
+    glfwSetKeyCallback(g_window.handle, &on_key_input);
 }
 
 /**
@@ -118,6 +119,7 @@ void window_free() {
     // free the input callbacks
     glfwSetMouseButtonCallback(g_window.handle, NULL);
     glfwSetCursorPosCallback(g_window.handle, NULL);
+    glfwSetKeyCallback(g_window.handle, NULL);
 }
 
 

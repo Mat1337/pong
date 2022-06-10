@@ -10,6 +10,7 @@
 
 #include "time_step.h"
 #include "input/mouse.h"
+#include "input/keyboard.h"
 
 #include "../graphics/render.h"
 

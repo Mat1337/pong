@@ -61,6 +61,26 @@ void on_mouse_release(int button, float x, float y) {
 }
 
 /**
+ * Gets called when a key is pressed
+ *
+ * @param key_code key code of the key that was pressed
+ * @param mods and mods that might come with the key event
+ */
+
+void on_key_press(int key_code, int mods) {
+}
+
+/**
+ * Gets called when a key is released
+ *
+ * @param key_code key code of the key that was released
+ * @param mods and mods that might come with the key event
+ */
+
+void on_key_release(int key_code, int mods) {
+}
+
+/**
  * Gets called every render frame
  *
  * @param width width of the window
@@ -84,6 +104,12 @@ void on_render(float width, float height, float mouse_x, float mouse_y, float ti
 
     // render text to screen
     render_text(text, 10, 10, 0xffa6119e);
+
+    // if the escape key is pressed
+    if (key_is_down(GLFW_KEY_ESCAPE)) {
+        // render the debug text
+        render_text("'ESCAPE' key was pressed", 10, 30, 0xffa3ff03);
+    }
 
     // pop matrix
     glPopMatrix();
