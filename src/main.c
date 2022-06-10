@@ -39,10 +39,32 @@ int on_init() {
 }
 
 /**
+ * Gets called when the mouse is pressed
+ *
+ * @param button button that was pressed
+ * @param x x coordinate of the mouse on the window
+ * @param y y coordinate of the mouse on the window
+ */
+
+void on_mouse_press(int button, float x, float y) {
+}
+
+/**
+ * Gets called when the mouse is released
+ *
+ * @param button button that was pressed
+ * @param x x coordinate of the mouse on the window
+ * @param y y coordinate of the mouse on the window
+ */
+
+void on_mouse_release(int button, float x, float y) {
+}
+
+/**
  * Gets called every render frame
  */
 
-void on_render() {
+void on_render(float mouse_x, float mouse_y) {
     // push new matrix
     glPushMatrix();
 
@@ -119,6 +141,10 @@ int main(void) {
     glfwSetWindowSizeCallback(window_handle, &on_window_resize);
     glfwSetWindowFocusCallback(window_handle, &on_window_focus_change);
 
+    // setup the input callbacks
+    glfwSetMouseButtonCallback(window_handle, &on_mouse_input);
+    glfwSetCursorPosCallback(window_handle, &on_mouse_move);
+
     // make the window's context current
     glfwMakeContextCurrent(window_handle);
 
@@ -140,7 +166,7 @@ int main(void) {
         render_setup_overlay(g_window.width, g_window.height);
 
         // call the render function
-        on_render();
+        on_render(g_mouse.x, g_mouse.y);
 
         // swap front and back buffers
         glfwSwapBuffers(window_handle);
@@ -152,6 +178,10 @@ int main(void) {
     // free the window callbacks
     glfwSetWindowSizeCallback(window_handle, NULL);
     glfwSetWindowFocusCallback(window_handle, NULL);
+
+    // free the input callbacks
+    glfwSetMouseButtonCallback(window_handle, NULL);
+    glfwSetCursorPosCallback(window_handle, NULL);
 
     // close the window
     window_close();

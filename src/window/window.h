@@ -7,6 +7,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include "input/mouse.h"
+
 typedef struct window_t {
     int width;
     int height;
