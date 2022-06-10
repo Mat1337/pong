@@ -22,7 +22,10 @@ typedef struct {
 } FONT_ARGS;
 
 // define the macro for calling the render text function
-#define render_text(...) render_text_params((FONT_ARGS){__VA_ARGS__})
+#define render_text(...) render_text_params((FONT_ARGS){__VA_ARGS__}, 0)
+
+// define the macro for calling the render text function
+#define render_centered_text(...) render_text_params((FONT_ARGS){__VA_ARGS__}, 1)
 
 /**
  * Initializes the renderer
@@ -127,7 +130,7 @@ int render_char_quad(char c, float x, float y);
  * @param scale scale of the text
  */
 
-void render_text_params(FONT_ARGS args);
+void render_text_params(FONT_ARGS args, int centered);
 
 /**
  * Sets the current color that will be used to render

@@ -267,12 +267,25 @@ int render_char_quad(char c, float x, float y) {
  * @param scale scale of the text
  */
 
-void render_text_params(FONT_ARGS args) {
+void render_text_params(FONT_ARGS args, int centered) {
     // get the scale from the arguments
     float scale = args.scale ? args.scale : 1.5f;
 
     // get the color from the arguments
     int argb = args.color ? (int) args.color : (int) 0xffffffff;
+
+    // calculate the correct x & y coordinates
+    float x = args.x / scale;
+    float y = args.y / scale;
+
+    // if the centered flag is set
+    if (centered) {
+        // offset the x coordinate by half of the text width
+        x -= (float) font_get_text_width(args.text) / 2.0f;
+
+        // offset the y coordinate by half of the text height
+        y -= (float) g_font.font_size / 2.0f;
+    }
 
     // get the color values
     COLOR color = color_get(argb);
@@ -286,9 +299,6 @@ void render_text_params(FONT_ARGS args) {
     // scale the text
     glScalef(scale, scale, scale);
 
-    // align the texture on the y-axis
-    glTranslatef(0, (float) -g_font.line_height / 2.0f, 0);
-
     // start the texture shader
     shader_start(SHADER_TEXTURE);
 
@@ -296,14 +306,14 @@ void render_text_params(FONT_ARGS args) {
     shader_uniform_vec4(shader_texture_color_uniform, color.r, color.g, color.b, color.a);
 
     // define an offset that will store the progress of cursor
-    float cursor = 0.0f;
+    float cursor = x;
 
     // loop through all characters in the string
     for (int i = 0; i < strlen(args.text); i++) {
 
         // render the character and increment the cursor
-        cursor += (float) render_char_quad(args.text[i], args.x + cursor,
-                                           args.y + (float) g_font.line_height);
+        cursor += (float) render_char_quad(args.text[i], cursor,
+                                           y + (float) g_font.line_height / 2.0f);
     }
 
     // stop the shader

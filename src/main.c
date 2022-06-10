@@ -114,7 +114,7 @@ void on_render(float width, float height, float mouse_x, float mouse_y, float ti
     // if the escape key is pressed
     if (key_is_down(GLFW_KEY_ESCAPE)) {
         // render the debug text
-        render_text("'ESCAPE' key was pressed", 10, 30, 0xffa3ff03);
+        render_centered_text("'ESCAPE' key was pressed", width / 2.0f, height / 2.0f, 0xffa3ff03);
     }
 
     // pop matrix

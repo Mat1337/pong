@@ -98,7 +98,7 @@ int font_get_text_width(char *text) {
     int width = 0;
 
     // loop through all the characters in the string
-    for (int i = 0; i < strlen(text); i++) {
+    for (int i = 0; i < strlen(text) - 1; i++) {
 
         // increment the width by the advance of the glyph
         width += (int) font_glyph_get(text[i]).advance;
