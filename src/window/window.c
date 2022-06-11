@@ -49,6 +49,7 @@ void window_initialize() {
     // disable window resizing
     glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
+
     // create a windowed mode window and its opengl context
     g_window.handle = glfwCreateWindow(g_window.width, g_window.height, "Pong", NULL, NULL);
     if (!g_window.handle) {

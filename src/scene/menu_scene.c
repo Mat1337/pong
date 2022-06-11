@@ -4,7 +4,6 @@
 
 #include "scenes.h"
 #include "../util/log.h"
-#include "../window/window.h"
 
 /**
  * Gets called when the menu is shown
@@ -102,12 +101,20 @@ void menu_render(float width, float height, float mouse_x, float mouse_y, float 
     }
 }
 
+/**
+ * Gets called when the menu scene closes
+ */
+
+void menu_close() {
+}
+
 // define the menu scene
 SCENE g_menu_scene = {
-        .show = menu_show,
-        .mouse_press = menu_mouse_press,
-        .mouse_release = menu_mouse_release,
-        .key_press = menu_key_press,
-        .key_release = menu_key_release,
-        .render = menu_render
+        .show           = menu_show,
+        .mouse_press    = menu_mouse_press,
+        .mouse_release  = menu_mouse_release,
+        .key_press      = menu_key_press,
+        .key_release    = menu_key_release,
+        .render         = menu_render,
+        .close          = menu_close
 };

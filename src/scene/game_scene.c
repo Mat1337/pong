@@ -78,12 +78,20 @@ void game_render(float width, float height, float mouse_x, float mouse_y, float 
     render_centered_text("Game Scene", width / 2.0f, height / 2.0f, 0xffff00ff);
 }
 
+/**
+ * Gets called when the game scene closes
+ */
+
+void game_close() {
+}
+
 // define the menu scene
 SCENE g_game_scene = {
-        .show = game_show,
-        .mouse_press = game_mouse_press,
-        .mouse_release = game_mouse_release,
-        .key_press = game_key_press,
-        .key_release = game_key_release,
-        .render = game_render
+        .show           = game_show,
+        .mouse_press    = game_mouse_press,
+        .mouse_release  = game_mouse_release,
+        .key_press      = game_key_press,
+        .key_release    = game_key_release,
+        .render         = game_render,
+        .close          = game_close
 };
