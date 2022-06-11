@@ -15,15 +15,21 @@ SCENE *current_scene;
 void show_scene(SCENE *scene_ptr) {
     // if the current scene is valid
     if (current_scene != NULL) {
-        // close the scene
-        current_scene->close();
+        // if the close function ptr is valid
+        if (current_scene->close) {
+            // close the scene
+            current_scene->close();
+        }
     }
 
     // update the current scene
     current_scene = scene_ptr;
 
-    // and show the scene
-    current_scene->show();
+    // if the show function ptr is valid
+    if (current_scene->show) {
+        // and show the scene
+        current_scene->show();
+    }
 }
 
 /**

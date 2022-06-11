@@ -53,6 +53,14 @@ void window_initialize();
 void window_run();
 
 /**
+ * Checks if the window has focus
+ *
+ * @return returns flag that says if the window has focus or not
+ */
+
+int window_has_focus();
+
+/**
  * Frees any memory that the window might take
  */
 

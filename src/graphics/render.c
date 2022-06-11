@@ -34,11 +34,12 @@ void render_initialize() {
 void render_setup_overlay(int width, int height) {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glViewport(0, 0, width, height);
     glOrtho(0, width, height, 0, -1, 1);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+    glViewport(0, 0, width, height);
     glDisable(GL_DEPTH_TEST);
+    glTranslatef(0, 0, 0);
 }
 
 /**

@@ -6,55 +6,6 @@
 #include "../util/log.h"
 
 /**
- * Gets called when the menu is shown
- */
-
-void menu_show() {
-}
-
-/**
- * Gets called when the mouse is pressed
- *
- * @param button button that was pressed
- * @param x x coordinate of the mouse on the window
- * @param y y coordinate of the mouse on the window
- */
-
-void menu_mouse_press(int button, float x, float y) {
-}
-
-/**
- * Gets called when the mouse is released
- *
- * @param button button that was pressed
- * @param x x coordinate of the mouse on the window
- * @param y y coordinate of the mouse on the window
- */
-
-void menu_mouse_release(int button, float x, float y) {
-}
-
-/**
- * Gets called when a key is pressed
- *
- * @param key_code key code of the key that was pressed
- * @param mods and mods that might come with the key event
- */
-
-void menu_key_press(int key_code, int mods) {
-}
-
-/**
- * Gets called when a key is released
- *
- * @param key_code key code of the key that was released
- * @param mods and mods that might come with the key event
- */
-
-void menu_key_release(int key_code, int mods) {
-}
-
-/**
  * Gets called every render frame
  *
  * @param width width of the window
@@ -101,20 +52,8 @@ void menu_render(float width, float height, float mouse_x, float mouse_y, float 
     }
 }
 
-/**
- * Gets called when the menu scene closes
- */
-
-void menu_close() {
-}
 
 // define the menu scene
 SCENE g_menu_scene = {
-        .show           = menu_show,
-        .mouse_press    = menu_mouse_press,
-        .mouse_release  = menu_mouse_release,
-        .key_press      = menu_key_press,
-        .key_release    = menu_key_release,
-        .render         = menu_render,
-        .close          = menu_close
+        .render = menu_render
 };

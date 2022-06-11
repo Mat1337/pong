@@ -51,14 +51,22 @@ int on_init() {
  */
 
 void on_mouse_press(int button, float x, float y) {
+    // if the window does not have focus
+    if (!window_has_focus()) {
+        // return out of the method
+        return;
+    }
+
     // get the current scene
     SCENE *scene = get_scene();
 
     // if the scene pointer is valid
     if (scene != NULL) {
-
-        // pass the mouse press call to the scene
-        scene->mouse_press(button, x, y);
+        // if the mouse press function ptr is valid
+        if (scene->mouse_press) {
+            // pass the mouse press call to the scene
+            scene->mouse_press(button, x, y);
+        }
     }
 }
 
@@ -71,14 +79,22 @@ void on_mouse_press(int button, float x, float y) {
  */
 
 void on_mouse_release(int button, float x, float y) {
+    // if the window does not have focus
+    if (!window_has_focus()) {
+        // return out of the method
+        return;
+    }
+
     // get the current scene
     SCENE *scene = get_scene();
 
     // if the scene pointer is valid
     if (scene != NULL) {
-
-        // pass the mouse release call to the scene
-        scene->mouse_press(button, x, y);
+        // if the mouse release function ptr is valid
+        if (scene->mouse_release) {
+            // pass the mouse release call to the scene
+            scene->mouse_release(button, x, y);
+        }
     }
 }
 
@@ -90,14 +106,22 @@ void on_mouse_release(int button, float x, float y) {
  */
 
 void on_key_press(int key_code, int mods) {
+    // if the window does not have focus
+    if (!window_has_focus()) {
+        // return out of the method
+        return;
+    }
+
     // get the current scene
     SCENE *scene = get_scene();
 
     // if the scene pointer is valid
     if (scene != NULL) {
-
-        // pass the key press call to the scene
-        scene->key_press(key_code, mods);
+        // if the key press function ptr is valid
+        if (scene->key_press) {
+            // pass the key press call to the scene
+            scene->key_press(key_code, mods);
+        }
     }
 }
 
@@ -109,14 +133,22 @@ void on_key_press(int key_code, int mods) {
  */
 
 void on_key_release(int key_code, int mods) {
+    // if the window does not have focus
+    if (!window_has_focus()) {
+        // return out of the method
+        return;
+    }
+
     // get the current scene
     SCENE *scene = get_scene();
 
     // if the scene pointer is valid
     if (scene != NULL) {
-
-        // pass the key release call to the scene
-        scene->key_press(key_code, mods);
+        // if the key release function ptr is valid
+        if (scene->key_release) {
+            // pass the key release call to the scene
+            scene->key_release(key_code, mods);
+        }
     }
 }
 
@@ -139,9 +171,11 @@ void on_render(float width, float height, float mouse_x, float mouse_y, float ti
 
     // if the scene pointer is valid
     if (scene != NULL) {
-
-        // pass the render call to the scene
-        scene->render(width, height, mouse_x, mouse_y, time_step);
+        // if the render function ptr is valid
+        if (scene->render) {
+            // pass the render call to the scene
+            scene->render(width, height, mouse_x, mouse_y, time_step);
+        }
     }
 
     // pop the scene matrix
@@ -160,6 +194,18 @@ void on_render(float width, float height, float mouse_x, float mouse_y, float ti
 
     // render text to screen
     render_text(text, 10, 10, 0xffa6119e);
+
+    // if the window does not have focus
+    if (!window_has_focus()) {
+        // render the overlay over the game
+        render_set_color(color_get(0xEE222222));
+        render_quad(0, 0, width, height);
+
+        // draw the glowing game paused text
+        render_centered_text("Game paused", width / 2.0f + 0.5f, height / 2.0f + 0.5f, 0xff33ff33);
+        render_centered_text("Game paused", width / 2.0f - 0.5f, height / 2.0f - 0.5f, 0xff33ff33);
+        render_centered_text("Game paused", width / 2.0f, height / 2.0f);
+    }
 
     // pop matrix
     glPopMatrix();

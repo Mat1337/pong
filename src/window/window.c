@@ -4,6 +4,10 @@
 
 #include "window.h"
 
+// define the base bounds of the window
+static const int WIDTH = 640;
+static const int HEIGHT = 480;
+
 // used for accessing window information
 WINDOW g_window;
 
@@ -37,8 +41,8 @@ void on_window_focus_change(GLFWwindow *window_handle, int focused) {
 
 void window_initialize() {
     // setup the window settings
-    g_window.width = 640;
-    g_window.height = 480;
+    g_window.width = WIDTH;
+    g_window.height = HEIGHT;
     g_window.has_focus = 1;
 
     // initialize the library
@@ -109,6 +113,17 @@ void window_run() {
         // poll for and process events
         glfwPollEvents();
     }
+}
+
+
+/**
+ * Checks if the window has focus
+ *
+ * @return returns flag that says if the window has focus or not
+ */
+
+int window_has_focus() {
+    return g_window.has_focus;
 }
 
 /**
