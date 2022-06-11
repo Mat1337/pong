@@ -131,6 +131,9 @@ void on_key_release(int key_code, int mods) {
  */
 
 void on_render(float width, float height, float mouse_x, float mouse_y, float time_step) {
+    // push a matrix for the current scene
+    glPushMatrix();
+
     // get the current scene
     SCENE *scene = get_scene();
 
@@ -140,6 +143,9 @@ void on_render(float width, float height, float mouse_x, float mouse_y, float ti
         // pass the render call to the scene
         scene->render(width, height, mouse_x, mouse_y, time_step);
     }
+
+    // pop the scene matrix
+    glPopMatrix();
 
     // push new matrix
     glPushMatrix();
@@ -154,12 +160,6 @@ void on_render(float width, float height, float mouse_x, float mouse_y, float ti
 
     // render text to screen
     render_text(text, 10, 10, 0xffa6119e);
-
-    // if the escape key is pressed
-    if (key_is_down(GLFW_KEY_ESCAPE)) {
-        // render the debug text
-        render_centered_text("'ESCAPE' key was pressed", width / 2.0f, height / 2.0f, 0xffa3ff03);
-    }
 
     // pop matrix
     glPopMatrix();

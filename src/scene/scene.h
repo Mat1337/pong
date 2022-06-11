@@ -8,7 +8,7 @@
 #include <stdio.h>
 
 // include the render api
-#include "../graphics/render.h"
+#include "../graphics/gui.h"
 
 // define the init function
 typedef void(*f_basic)();

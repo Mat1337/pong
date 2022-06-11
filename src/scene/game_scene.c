@@ -2,7 +2,7 @@
 // Created by mat on 6/11/2022.
 //
 
-#include "game_scene.h"
+#include "scenes.h"
 
 /**
  * Gets called when the menu is shown
@@ -41,6 +41,11 @@ void game_mouse_release(int button, float x, float y) {
  */
 
 void game_key_press(int key_code, int mods) {
+    // if the escape key was hit
+    if (key_code == GLFW_KEY_ESCAPE) {
+        // show the menu scene
+        show_scene(&g_menu_scene);
+    }
 }
 
 /**

@@ -3,6 +3,8 @@
 //
 
 #include "scenes.h"
+#include "../util/log.h"
+#include "../window/window.h"
 
 /**
  * Gets called when the menu is shown
@@ -41,9 +43,6 @@ void menu_mouse_release(int button, float x, float y) {
  */
 
 void menu_key_press(int key_code, int mods) {
-    if (key_code == GLFW_KEY_ENTER) {
-        show_scene(&g_game_scene);
-    }
 }
 
 /**
@@ -67,7 +66,40 @@ void menu_key_release(int key_code, int mods) {
  */
 
 void menu_render(float width, float height, float mouse_x, float mouse_y, float time_step) {
-    render_centered_text("Menu Scene", width / 2.0f, height / 2.0f, 0xff00ff00);
+    // render the main menu text
+    render_centered_text("Main Menu", width / 2.0f, height / 4.0f);
+
+    // define the offset on the y-axis
+    float offset = 0;
+
+    // define the height of the button
+    static float btn_height = 30;
+
+    // if the play button was clicked
+    if (gui_centered_button("Play", width / 2.0f, height / 2.5f, 250, btn_height)) {
+
+        // show the game scene
+        show_scene(&g_game_scene);
+    }
+
+    // increment the offset
+    offset += btn_height + 15;
+
+    // if the settings button was clicked
+    if (gui_centered_button("Settings", width / 2.0f, height / 2.5f + offset, 250, btn_height)) {
+
+        // todo :: add settings scene
+    }
+
+    // increment the offset
+    offset += btn_height + 15;
+
+    // if the quit button was clicked
+    if (gui_centered_button("Quit", width / 2.0f, height / 2.5f + offset, 250, btn_height)) {
+
+        // exit the application
+        exit(0);
+    }
 }
 
 // define the menu scene

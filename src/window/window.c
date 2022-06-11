@@ -102,7 +102,10 @@ void window_run() {
         // swap front and back buffers
         glfwSwapBuffers(g_window.handle);
 
-        // Poll for and process events
+        // reset the mouse
+        mouse_reset();
+
+        // poll for and process events
         glfwPollEvents();
     }
 }

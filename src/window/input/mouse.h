@@ -35,6 +35,37 @@ void on_mouse_input(GLFWwindow *window, int button, int action, int mods);
 void on_mouse_move(GLFWwindow *window, double x, double y);
 
 /**
+ * Checks if the mouse is in the in the provided bounds
+ *
+ * @param x x coordinate of the rectangle
+ * @param y y coordinate of the rectangle
+ * @param width width of the rectangle
+ * @param height height of the rectangle
+ * @return 0 = true, 1 = false
+ */
+
+int mouse_is_hovered(float x, float y, float width, float height);
+
+/**
+ * Checks if the mouse has been clicked in the current frame
+ * in the provided rectangle
+ *
+ * @param x x coordinate of the rectangle
+ * @param y y coordinate of the rectangle
+ * @param width width of the rectangle
+ * @param height height of the rectangle
+ * @return 0 = true, 1 = false
+ */
+
+int mouse_is_clicked(float x, float y, float width, float height);
+
+/**
+ * Resets the mouse data
+ */
+
+void mouse_reset();
+
+/**
  * Gets called when the mouse is pressed
  *
  * @param button button that was pressed
