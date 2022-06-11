@@ -5,6 +5,7 @@
 #include "util/log.h"
 #include "graphics/render.h"
 #include "window/window.h"
+#include "scene/scenes.h"
 
 /**
  * Gets called when the render context has been initialized
@@ -31,6 +32,9 @@ int on_init() {
     // initialize the renderer
     render_initialize();
 
+    // show the menu scene
+    show_scene(&g_menu_scene);
+
     // log to console that the application has been initialized
     LOG_INFO("Application has been %s [%d]", "Initialized", glfwGetTime());
 
@@ -47,6 +51,15 @@ int on_init() {
  */
 
 void on_mouse_press(int button, float x, float y) {
+    // get the current scene
+    SCENE *scene = get_scene();
+
+    // if the scene pointer is valid
+    if (scene != NULL) {
+
+        // pass the mouse press call to the scene
+        scene->mouse_press(button, x, y);
+    }
 }
 
 /**
@@ -58,6 +71,15 @@ void on_mouse_press(int button, float x, float y) {
  */
 
 void on_mouse_release(int button, float x, float y) {
+    // get the current scene
+    SCENE *scene = get_scene();
+
+    // if the scene pointer is valid
+    if (scene != NULL) {
+
+        // pass the mouse release call to the scene
+        scene->mouse_press(button, x, y);
+    }
 }
 
 /**
@@ -68,6 +90,15 @@ void on_mouse_release(int button, float x, float y) {
  */
 
 void on_key_press(int key_code, int mods) {
+    // get the current scene
+    SCENE *scene = get_scene();
+
+    // if the scene pointer is valid
+    if (scene != NULL) {
+
+        // pass the key press call to the scene
+        scene->key_press(key_code, mods);
+    }
 }
 
 /**
@@ -78,6 +109,15 @@ void on_key_press(int key_code, int mods) {
  */
 
 void on_key_release(int key_code, int mods) {
+    // get the current scene
+    SCENE *scene = get_scene();
+
+    // if the scene pointer is valid
+    if (scene != NULL) {
+
+        // pass the key release call to the scene
+        scene->key_press(key_code, mods);
+    }
 }
 
 /**
@@ -91,18 +131,22 @@ void on_key_release(int key_code, int mods) {
  */
 
 void on_render(float width, float height, float mouse_x, float mouse_y, float time_step) {
+    // get the current scene
+    SCENE *scene = get_scene();
+
+    // if the scene pointer is valid
+    if (scene != NULL) {
+
+        // pass the render call to the scene
+        scene->render(width, height, mouse_x, mouse_y, time_step);
+    }
+
     // push new matrix
     glPushMatrix();
 
     // draw the while outline around the screen
     render_set_color(color_get((int) 0xffffffff));
     render_quad_outline(0, 0, width, height, 5.0f);
-
-    // draw the dotted line in the middle
-    float thickness = 1.5f;
-    render_set_color(color_get((int) 0xffffffff));
-    render_dotted_line((width - thickness) / 2.0f, 35,
-                       (width - thickness) / 2.0f, height - 35, thickness, 0x000F);
 
     // get the time step text
     static char text[256];
