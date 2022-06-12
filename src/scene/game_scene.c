@@ -63,6 +63,9 @@ void game_render(float width, float height, float mouse_x, float mouse_y, float 
     // render all the balls from the game
     game_render_balls(&game, time_step);
 
+    // render the score of the game
+    game_render_score(&game, width, height, time_step);
+
     // check for any collisions
     game_check_collisions(&game, width, height);
 }

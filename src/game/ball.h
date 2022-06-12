@@ -7,11 +7,13 @@
 
 #define BALL_RADIUS 10
 
+#include "player.h"
 #include "../util/box.h"
 #include "../graphics/render.h"
 
 typedef struct {
     BOX box;
+    PLAYER *last_hit;
 
     float vel_x;
     float vel_y;

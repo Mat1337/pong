@@ -61,6 +61,17 @@ void game_add_ball(GAME *game);
 void game_render_balls(GAME *game, float time_step);
 
 /**
+ * Renders the game score
+ *
+ * @param game handle of the game
+ * @param width width of the screen
+ * @param height height of the screen
+ * @param time_step time since the last render call
+ */
+
+void game_render_score(GAME *game, float width, float height, float time_step);
+
+/**
  * Checks for any collision
  *
  * @param game handle of the game
@@ -78,10 +89,9 @@ void game_check_collisions(GAME *game, float width, float height);
  * @param ball ball that you want to check against
  * @param width width of the screen
  * @param height height of the screen
- * @return 1 = collided, 0 = not collided
  */
 
-int game_check_player_collision(GAME *game, BALL *ball, float width, float height);
+void game_check_player_collision(GAME *game, BALL *ball, float width, float height);
 
 /**
  * Stops the game session

@@ -184,13 +184,6 @@ void on_render(float width, float height, float mouse_x, float mouse_y, float ti
     // push new matrix
     glPushMatrix();
 
-    // get the time step text
-    static char text[256];
-    sprintf(text, "Fps: %.1f", time_fps_get());
-
-    // render text to screen
-    render_text(text, 10, 10, 0xffa6119e);
-
     // if the window does not have focus
     if (!window_has_focus()) {
         // render the overlay over the game

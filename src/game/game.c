@@ -43,6 +43,8 @@ void game_add_player(GAME *game, float padding, int key_up, int key_down) {
     player->key_up = key_up;
     player->key_down = key_down;
 
+    player->score = 0;
+
     // add the player to the list of the players for the provided game
     list_add(game->players, (void *) player);
 }
@@ -96,6 +98,9 @@ void game_add_ball(GAME *game) {
     ball->vel_x = 350;
     ball->vel_y = -350;
 
+    // invalidate the last hit
+    ball->last_hit = NULL;
+
     // add the ball to the list of the balls in the game
     list_add(game->balls, (void *) ball);
 }
@@ -122,7 +127,43 @@ void game_render_balls(GAME *game, float time_step) {
         // render the player
         ball_render((BALL *) iterator->data, time_step);
 
-        // cache the next item
+        // update the iterator to the next node
+        iterator = iterator->next;
+    }
+}
+
+/**
+ * Renders the game score
+ *
+ * @param game handle of the game
+ * @param width width of the screen
+ * @param height height of the screen
+ * @param time_step time since the last render call
+ */
+
+void game_render_score(GAME *game, float width, float height, float time_step) {
+    // get the head of the list
+    NODE *iterator = game->players->head;
+
+    // calculate the start of the score text
+    float x_start = width / 4.0f;
+
+    // loop through the list
+    while (iterator != NULL) {
+        // get the current player
+        PLAYER *player = (PLAYER *) iterator->data;
+
+        // build the score string
+        char score[256];
+        sprintf(score, "Score: %d", player->score);
+
+        // render the score string to the screen
+        render_centered_text(score, x_start, 35);
+
+        // increment the x start for half of the width of the screen
+        x_start += width / 2.0f;
+
+        // update the iterator to the next node
         iterator = iterator->next;
     }
 }
@@ -152,6 +193,11 @@ void game_check_collisions(GAME *game, float width, float height) {
 
         // check for horizontal collision
         if (ball->box.x < 0 || ball->box.x + ball->box.width > width) {
+            // check that the ball has touched a player
+            if (ball->last_hit != NULL) {
+                // increment the score of the player that last hit the ball
+                ball->last_hit->score++;
+            }
 
             // reset the ball position
             ball->box.x = ((width - ball->box.width) / 2.0f);
@@ -174,10 +220,9 @@ void game_check_collisions(GAME *game, float width, float height) {
  * @param ball ball that you want to check against
  * @param width width of the screen
  * @param height height of the screen
- * @return 1 = collided, 0 = not collided
  */
 
-int game_check_player_collision(GAME *game, BALL *ball, float width, float height) {
+void game_check_player_collision(GAME *game, BALL *ball, float width, float height) {
     // get the head of the list
     NODE *iterator = game->players->head;
 
@@ -193,13 +238,14 @@ int game_check_player_collision(GAME *game, BALL *ball, float width, float heigh
 
             // invert the x velocity
             ball->vel_x *= -1;
+
+            // update the last hit player pointer for the ball
+            ball->last_hit = player;
         }
 
         // update the iterator to the next node
         iterator = iterator->next;
     }
-
-    return 0;
 }
 
 /**

@@ -17,6 +17,8 @@ typedef struct {
 
     int key_up;
     int key_down;
+
+    int score;
 } PLAYER;
 
 /**
