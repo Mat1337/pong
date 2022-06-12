@@ -185,7 +185,7 @@ void on_render(float width, float height, float mouse_x, float mouse_y, float ti
     glPushMatrix();
 
     // draw the while outline around the screen
-    render_set_color(color_get((int) 0xffffffff));
+    render_set_color_argb((int) 0xffffffff);
     render_quad_outline(0, 0, width, height, 5.0f);
 
     // get the time step text
@@ -198,7 +198,7 @@ void on_render(float width, float height, float mouse_x, float mouse_y, float ti
     // if the window does not have focus
     if (!window_has_focus()) {
         // render the overlay over the game
-        render_set_color(color_get(0xEE222222));
+        render_set_color_argb((int) 0xEE222222);
         render_quad(0, 0, width, height);
 
         // draw the glowing game paused text
@@ -216,6 +216,18 @@ void on_render(float width, float height, float mouse_x, float mouse_y, float ti
  */
 
 void on_close() {
+    // get the current scene
+    SCENE *scene = get_scene();
+
+    // if the scene pointer is valid
+    if (scene != NULL) {
+        // if the render function ptr is valid
+        if (scene->close) {
+            // pass the close call to the scene
+            scene->close();
+        }
+    }
+
     // free font from memory
     font_free();
 

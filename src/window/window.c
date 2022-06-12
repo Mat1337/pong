@@ -115,6 +115,25 @@ void window_run() {
     }
 }
 
+/**
+ * Returns the width of the window
+ *
+ * @return width of the window
+ */
+
+int window_get_width() {
+    return g_window.width;
+}
+
+/**
+ * Returns the height of the window
+ *
+ * @return height of the window
+ */
+
+int window_get_height() {
+    return g_window.height;
+}
 
 /**
  * Checks if the window has focus

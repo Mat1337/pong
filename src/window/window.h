@@ -53,6 +53,22 @@ void window_initialize();
 void window_run();
 
 /**
+ * Returns the width of the window
+ *
+ * @return width of the window
+ */
+
+int window_get_width();
+
+/**
+ * Returns the height of the window
+ *
+ * @return height of the window
+ */
+
+int window_get_height();
+
+/**
  * Checks if the window has focus
  *
  * @return returns flag that says if the window has focus or not

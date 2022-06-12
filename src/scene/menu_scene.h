@@ -5,7 +5,6 @@
 #ifndef PONG_CLONE_MENU_SCENE_H
 #define PONG_CLONE_MENU_SCENE_H
 
-// include all the scenes here
 #include "scene.h"
 
 // define a menu scene

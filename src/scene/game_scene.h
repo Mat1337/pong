@@ -5,8 +5,10 @@
 #ifndef PONG_CLONE_GAME_SCENE_H
 #define PONG_CLONE_GAME_SCENE_H
 
-// include all the scenes here
 #include "scene.h"
+
+// include the game api
+#include "../game/game.h"
 
 // define a menu scene
 extern SCENE g_game_scene;

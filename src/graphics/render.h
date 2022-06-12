@@ -134,6 +134,15 @@ void render_text_params(FONT_ARGS args, int centered);
 
 /**
  * Sets the current color that will be used to render
+ *
+ * @param argb argb value of the color that you want to use
+ */
+
+void render_set_color_argb(int argb);
+
+/**
+ * Sets the current color that will be used to render
+ *
  * @param color color that you want to use
  */
 

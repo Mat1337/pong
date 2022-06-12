@@ -9,11 +9,11 @@
 
 int gui_button(char *label, float x, float y, float width, float height) {
     // draw the background of the button
-    render_set_color(color_get(mouse_is_hovered(x, y, width, height) ? 0x77004477 : 0x66003366));
+    render_set_color_argb(mouse_is_hovered(x, y, width, height) ? 0x77004477 : 0x66003366);
     render_quad(x, y, width, height);
 
     // draw the outline of the button
-    render_set_color(color_get(0x88006688));
+    render_set_color_argb((int) 0x88006688);
     render_quad_outline(x, y, width, height, 1);
 
     // draw the label of the button
