@@ -34,6 +34,9 @@ void ball_reset(BALL *ball, float width, float height) {
     // invalidate the last hit pointer
     ball->last_hit = NULL;
 
+    // reset the ball speed
+    ball->speed = BALL_SPEED;
+
     // reset the ball position
     ball->box.x = ((width - ball->box.width) / 2.0f);
     ball->box.y = ((height - ball->box.height) / 2.0f);

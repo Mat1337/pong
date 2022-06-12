@@ -243,6 +243,9 @@ void game_check_player_collision(GAME *game, BALL *ball, float width, float heig
             // clamp the ball x position, so it does not go inside the player
             ball->box.x = player->box.x - (ball->box.x > width / 2.0f ? ball->box.width : -player->box.width);
 
+            // increment the speed of the ball
+            ball->speed += BALL_SPEED_INCREMENT;
+
             // get the height of the player
             float half_height = player->box.height / 2.0f;
 
@@ -262,8 +265,8 @@ void game_check_player_collision(GAME *game, BALL *ball, float width, float heig
             float angle = math_rad(math_map_float(dist, -1.0f, 1.0f, top, bottom));
 
             // update the balls velocities
-            ball->vel_x = BALL_SPEED * sinf(angle);
-            ball->vel_y = BALL_SPEED * cosf(angle);
+            ball->vel_x = ball->speed * sinf(angle);
+            ball->vel_y = ball->speed * cosf(angle);
 
             // update the last hit player pointer for the ball
             ball->last_hit = player;

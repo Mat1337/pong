@@ -7,6 +7,7 @@
 
 #define PLAYER_WIDTH 10
 #define PLAYER_HEIGHT 150
+#define PLAYER_SPEED 400
 
 #include "../util/box.h"
 #include "../graphics/render.h"

@@ -29,9 +29,9 @@
 void player_render(PLAYER *player, float width, float height, float time_step) {
     // handle the player movement
     if (key_is_down(player->key_up)) {
-        player->box.y -= 250 * time_step;
+        player->box.y -= PLAYER_SPEED * time_step;
     } else if (key_is_down(player->key_down)) {
-        player->box.y += 250 * time_step;
+        player->box.y += PLAYER_SPEED * time_step;
     }
 
     // render the outline

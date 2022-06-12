@@ -7,6 +7,7 @@
 
 #define BALL_RADIUS 10.0f
 #define BALL_SPEED 350.0f
+#define BALL_SPEED_INCREMENT 15.0f
 
 #include "player.h"
 #include "../util/math.h"
@@ -18,6 +19,7 @@ typedef struct {
     BOX box;
     PLAYER *last_hit;
 
+    float speed;
     float vel_x;
     float vel_y;
 } BALL;
