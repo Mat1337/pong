@@ -4,6 +4,8 @@
 
 #include "ball.h"
 
+#define PI 3.14f
+
 /**
  * Renders the ball onto the screen
  *
@@ -12,8 +14,37 @@
  */
 
 void ball_render(BALL *ball, float time_step) {
+    // increment the position of the ball based on it's velocity
     ball->box.x += ball->vel_x * time_step;
     ball->box.y += ball->vel_y * time_step;
 
+    // render the ball
     render_circle(ball->box.x + ball->box.width / 2.0f, ball->box.y + ball->box.height / 2.0f, BALL_RADIUS);
+}
+
+/**
+ * Resets the ball data
+ *
+ * @param ball ball that you want to reset
+ * @param width width of the screen
+ * @param height height of the screen
+ */
+
+void ball_reset(BALL *ball, float width, float height) {
+    // invalidate the last hit pointer
+    ball->last_hit = NULL;
+
+    // reset the ball position
+    ball->box.x = ((width - ball->box.width) / 2.0f);
+    ball->box.y = ((height - ball->box.height) / 2.0f);
+
+    // calculate the new velocities
+    float angle = rand_float(-PI / 4, PI / 4);
+    ball->vel_x = 350.0f * cosf(angle);
+    ball->vel_y = 350.0f * sinf(angle);
+
+    // every once in a while switch the velocity direction
+    if (rand() > RAND_MAX / 2.0f) {
+        ball->vel_x *= -1;
+    }
 }

@@ -5,8 +5,12 @@
 #ifndef PONG_CLONE_GAME_H
 #define PONG_CLONE_GAME_H
 
+#include <math.h>
+
 #include "player.h"
 #include "ball.h"
+
+#include "../util/rand.h"
 #include "../util/list.h"
 
 typedef struct {

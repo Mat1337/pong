@@ -90,16 +90,15 @@ void game_add_ball(GAME *game) {
     ball->box.width = BALL_RADIUS * 2;
     ball->box.height = BALL_RADIUS * 2;
 
-    // position the ball in the middle of the screen
-    ball->box.x = (((float) window_get_width() - ball->box.width) / 2.0f);
-    ball->box.y = (((float) window_get_height() - ball->box.height) / 2.0f);
+    // reset the ball position
+    ball_reset(ball, (float) window_get_width(), (float) window_get_height());
 
-    // todo :: calculate starting velocities
-    ball->vel_x = 350;
-    ball->vel_y = -350;
-
-    // invalidate the last hit
-    ball->last_hit = NULL;
+    // set the base last hit based on the velocity of the ball
+    if (ball->vel_x < 0) {
+        ball->last_hit = (PLAYER *) game->players->tail->data;
+    } else {
+        ball->last_hit = (PLAYER *) game->players->head->data;
+    }
 
     // add the ball to the list of the balls in the game
     list_add(game->balls, (void *) ball);
@@ -200,8 +199,14 @@ void game_check_collisions(GAME *game, float width, float height) {
             }
 
             // reset the ball position
-            ball->box.x = ((width - ball->box.width) / 2.0f);
-            ball->box.y = ((height - ball->box.height) / 2.0f);
+            ball_reset(ball, (float) window_get_width(), (float) window_get_height());
+
+            // set the base last hit based on the velocity of the ball
+            if (ball->vel_x < 0) {
+                ball->last_hit = (PLAYER *) game->players->tail->data;
+            } else {
+                ball->last_hit = (PLAYER *) game->players->head->data;
+            }
         }
 
         // check for any collision with the players

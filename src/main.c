@@ -3,6 +3,7 @@
 //
 
 #include "util/log.h"
+#include "util/rand.h"
 #include "graphics/render.h"
 #include "window/window.h"
 #include "scene/scenes.h"
@@ -225,6 +226,9 @@ void on_close() {
 }
 
 int main(void) {
+    // setup the random number generator
+    srand((unsigned int) time(NULL));
+
     // initialize the window
     window_initialize();
 

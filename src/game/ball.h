@@ -7,7 +7,10 @@
 
 #define BALL_RADIUS 10
 
+#include <math.h>
+
 #include "player.h"
+#include "../util/rand.h"
 #include "../util/box.h"
 #include "../graphics/render.h"
 
@@ -27,5 +30,15 @@ typedef struct {
  */
 
 void ball_render(BALL *ball, float time_step);
+
+/**
+ * Resets the ball data
+ *
+ * @param ball ball that you want to reset
+ * @param width width of the screen
+ * @param height height of the screen
+ */
+
+void ball_reset(BALL *ball, float width, float height);
 
 #endif //PONG_CLONE_BALL_H
