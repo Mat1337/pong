@@ -40,8 +40,8 @@ void ball_reset(BALL *ball, float width, float height) {
 
     // calculate the new velocities
     float angle = rand_float(-PI / 4, PI / 4);
-    ball->vel_x = 350.0f * cosf(angle);
-    ball->vel_y = 350.0f * sinf(angle);
+    ball->vel_x = BALL_SPEED * cosf(angle);
+    ball->vel_y = BALL_SPEED * sinf(angle);
 
     // every once in a while switch the velocity direction
     if (rand() > RAND_MAX / 2.0f) {

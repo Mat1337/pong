@@ -5,11 +5,10 @@
 #ifndef PONG_CLONE_GAME_H
 #define PONG_CLONE_GAME_H
 
-#include <math.h>
-
 #include "player.h"
 #include "ball.h"
 
+#include "../util/math.h"
 #include "../util/rand.h"
 #include "../util/list.h"
 
@@ -42,10 +41,12 @@ void game_add_player(GAME *game, float padding, int key_up, int key_down);
  * Renders the players in game to the screen
  *
  * @param game game that you want to render
+ * @param width width of the screen
+ * @param height height of the screen
  * @param time_step time since the last render call
  */
 
-void game_render_players(GAME *game, float time_step);
+void game_render_players(GAME *game, float width, float height, float time_step);
 
 /**
  * Adds a ball to the game

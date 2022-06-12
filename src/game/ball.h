@@ -5,11 +5,11 @@
 #ifndef PONG_CLONE_BALL_H
 #define PONG_CLONE_BALL_H
 
-#define BALL_RADIUS 10
-
-#include <math.h>
+#define BALL_RADIUS 10.0f
+#define BALL_SPEED 350.0f
 
 #include "player.h"
+#include "../util/math.h"
 #include "../util/rand.h"
 #include "../util/box.h"
 #include "../graphics/render.h"

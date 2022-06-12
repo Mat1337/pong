@@ -58,7 +58,7 @@ void game_render(float width, float height, float mouse_x, float mouse_y, float 
                        (width - thickness) / 2.0f, height - 35, thickness, 0x000F);
 
     // render all the players from the game
-    game_render_players(&game, time_step);
+    game_render_players(&game, width, height, time_step);
 
     // render all the balls from the game
     game_render_balls(&game, time_step);

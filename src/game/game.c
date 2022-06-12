@@ -53,10 +53,12 @@ void game_add_player(GAME *game, float padding, int key_up, int key_down) {
  * Renders the players from game to the screen
  *
  * @param game game that you want to render
+ * @param width width of the screen
+ * @param height height of the screen
  * @param time_step time since the last render call
  */
 
-void game_render_players(GAME *game, float time_step) {
+void game_render_players(GAME *game, float width, float height, float time_step) {
     // get the head of the list
     NODE *iterator = game->players->head;
 
@@ -69,7 +71,7 @@ void game_render_players(GAME *game, float time_step) {
     // loop through the list
     while (iterator != NULL) {
         // render the player
-        player_render((PLAYER *) iterator->data, time_step);
+        player_render((PLAYER *) iterator->data, width, height, time_step);
 
         // cache the next item
         iterator = iterator->next;
@@ -241,8 +243,27 @@ void game_check_player_collision(GAME *game, BALL *ball, float width, float heig
             // clamp the ball x position, so it does not go inside the player
             ball->box.x = player->box.x - (ball->box.x > width / 2.0f ? ball->box.width : -player->box.width);
 
-            // invert the x velocity
-            ball->vel_x *= -1;
+            // get the height of the player
+            float half_height = player->box.height / 2.0f;
+
+            // calculate the middle of the player vertically
+            float center = player->box.y + half_height;
+
+            // calculate the offset from where the ball hit from top to bottom (-1, 1)
+            float dist = (ball->box.y - center) / half_height;
+
+            // get the angle for the top part of the player
+            float top = player->box.x > width / 2.0f ? -45 : 45;
+
+            // get the angle for the bottom part of the player
+            float bottom = player->box.x > width / 2.0f ? -135 : 135;
+
+            // map the dist to the angle
+            float angle = math_rad(math_map_float(dist, -1.0f, 1.0f, top, bottom));
+
+            // update the balls velocities
+            ball->vel_x = BALL_SPEED * sinf(angle);
+            ball->vel_y = BALL_SPEED * cosf(angle);
 
             // update the last hit player pointer for the ball
             ball->last_hit = player;

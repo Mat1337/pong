@@ -25,9 +25,11 @@ typedef struct {
  * Renders the player onto the screen
  *
  * @param player player that you want to render
+ * @param width width of the screen
+ * @param height height of the screen
  * @param time_step time since last render call
  */
 
-void player_render(PLAYER *player, float time_step);
+void player_render(PLAYER *player, float width, float height, float time_step);
 
 #endif //PONG_CLONE_PLAYER_H
