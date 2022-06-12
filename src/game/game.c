@@ -130,6 +130,7 @@ void game_render_balls(GAME *game, float time_step) {
 /**
  * Checks for any collision
  *
+ * @param game handle of the game
  * @param width width of the screen
  * @param height height of the screen
  */
@@ -164,6 +165,17 @@ void game_check_collisions(GAME *game, float width, float height) {
         iterator = iterator->next;
     }
 }
+
+/**
+ * Checks all the players with
+ * collisions with the provided ball
+ *
+ * @param game handle of the game
+ * @param ball ball that you want to check against
+ * @param width width of the screen
+ * @param height height of the screen
+ * @return 1 = collided, 0 = not collided
+ */
 
 int game_check_player_collision(GAME *game, BALL *ball, float width, float height) {
     // get the head of the list
