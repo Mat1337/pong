@@ -184,10 +184,6 @@ void on_render(float width, float height, float mouse_x, float mouse_y, float ti
     // push new matrix
     glPushMatrix();
 
-    // draw the while outline around the screen
-    render_set_color_argb((int) 0xffffffff);
-    render_quad_outline(0, 0, width, height, 5.0f);
-
     // get the time step text
     static char text[256];
     sprintf(text, "Fps: %.1f", time_fps_get());

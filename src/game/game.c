@@ -93,8 +93,8 @@ void game_add_ball(GAME *game) {
     ball->box.y = (((float) window_get_height() - ball->box.height) / 2.0f);
 
     // todo :: calculate starting velocities
-    ball->vel_x = 0;
-    ball->vel_y = 0;
+    ball->vel_x = 200;
+    ball->vel_y = -200;
 
     // add the ball to the list of the balls in the game
     list_add(game->balls, (void *) ball);
@@ -121,6 +121,43 @@ void game_render_balls(GAME *game, float time_step) {
     while (iterator != NULL) {
         // render the player
         ball_render((BALL *) iterator->data, time_step);
+
+        // cache the next item
+        iterator = iterator->next;
+    }
+}
+
+/**
+ * Checks for any collision
+ */
+
+void game_check_collisions(GAME *game) {
+    // get the head of the list
+    NODE *iterator = game->balls->head;
+
+    // if the iterator is invalid
+    if (iterator == NULL) {
+        // return out of the method there is nothing to free
+        return;
+    }
+
+    float width = (float) window_get_width();
+    float height = (float) window_get_height();
+
+    // loop through the list
+    while (iterator != NULL) {
+        // get the current ball
+        BALL *ball = iterator->data;
+
+        // check for ball vertical collision with the edge of the screen
+        if (ball->box.y < 0 || ball->box.y + ball->box.height > height) {
+            ball->vel_y *= -1;
+        }
+
+        // check for horizontal collision
+        if (ball->box.x < 0 || ball->box.x + ball->box.width > width) {
+            ball->vel_x *= -1;
+        }
 
         // cache the next item
         iterator = iterator->next;

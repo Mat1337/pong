@@ -5,6 +5,8 @@
 #ifndef PONG_CLONE_BOX_H
 #define PONG_CLONE_BOX_H
 
+#include "../graphics/render.h"
+
 typedef struct {
     float x;
     float y;
@@ -12,5 +14,15 @@ typedef struct {
     float width;
     float height;
 } BOX;
+
+/**
+ * Draws the box on the screen
+ *
+ * @param box box that you want to draw
+ * @param outline flag that contains if the box should be rendered as an outline
+ * @param color color of the box that you want to draw
+ */
+
+void box_render(BOX *box, int outline, int color);
 
 #endif //PONG_CLONE_BOX_H

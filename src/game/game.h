@@ -61,6 +61,12 @@ void game_add_ball(GAME *game);
 void game_render_balls(GAME *game, float time_step);
 
 /**
+ * Checks for any collision
+ */
+
+void game_check_collisions(GAME *game);
+
+/**
  * Stops the game session
  *
  * @param game game that you want to stop the session for

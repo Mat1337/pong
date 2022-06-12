@@ -24,6 +24,5 @@ void player_render(PLAYER *player, float time_step) {
     render_quad(player->box.x - 1, player->box.y - 1, player->box.width + 2.0f, player->box.height + 2.0f);
 
     // render the base
-    render_set_color_argb((int) 0xff888888);
-    render_quad(player->box.x, player->box.y, player->box.width, player->box.height);
+    box_render(&player->box, 0, (int) 0xff888888);
 }
