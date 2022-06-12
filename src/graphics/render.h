@@ -12,6 +12,7 @@
 #include "font.h"
 #include "color.h"
 #include "shader.h"
+#include "framebuffer.h"
 
 typedef struct {
     char *text;

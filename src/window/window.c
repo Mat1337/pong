@@ -73,6 +73,9 @@ void window_initialize() {
         return;
     }
 
+    // create the frame buffer
+    g_window.framebuffer = framebuffer_create(g_window.width, g_window.height);
+
     // setup the window callbacks
     glfwSetWindowSizeCallback(g_window.handle, &on_window_resize);
     glfwSetWindowFocusCallback(g_window.handle, &on_window_focus_change);
@@ -93,8 +96,12 @@ void window_run() {
         // update the time step
         time_step_update();
 
+        // bind the framebuffer
+        framebuffer_bind(g_window.framebuffer);
+
         // clear the screen color buffer
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // setup the 2D rendering
         render_setup_overlay(g_window.width, g_window.height);
@@ -102,6 +109,15 @@ void window_run() {
         // call the render function
         on_render((float) g_window.width, (float) g_window.height,
                   g_mouse.x, g_mouse.y, time_step_get());
+
+        // unbind the frame buffer
+        framebuffer_unbind();
+
+        // bind the framebuffer texture
+        framebuffer_bind_texture(g_window.framebuffer);
+
+        // bind the framebuffer texture
+        framebuffer_render(g_window.framebuffer);
 
         // swap front and back buffers
         glfwSwapBuffers(g_window.handle);
@@ -149,6 +165,9 @@ int window_has_focus() {
  */
 
 void window_free() {
+    // free the framebuffer
+    framebuffer_free(g_window.framebuffer);
+
     // free the window callbacks
     glfwSetWindowSizeCallback(g_window.handle, NULL);
     glfwSetWindowFocusCallback(g_window.handle, NULL);

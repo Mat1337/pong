@@ -16,6 +16,7 @@
 
 typedef struct window_t {
     GLFWwindow *handle;
+    FRAMEBUFFER *framebuffer;
     int width;
     int height;
     int has_focus;
