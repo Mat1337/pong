@@ -5,8 +5,6 @@
 #ifndef PONG_CLONE_LOG_H
 #define PONG_CLONE_LOG_H
 
-#define MAX_BUFFER_LEN 1024 * 10
-
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>

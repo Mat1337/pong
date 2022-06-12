@@ -1,0 +1,16 @@
+//
+// Created by mat on 6/12/2022.
+//
+
+#include "ball.h"
+
+/**
+ * Renders the ball onto the screen
+ *
+ * @param ball ball that you want to render
+ * @param time_step time since last render call
+ */
+
+void ball_render(BALL *ball, float time_step) {
+    render_circle(ball->box.x + ball->box.width / 2.0f, ball->box.y + ball->box.height / 2.0f, BALL_RADIUS);
+}

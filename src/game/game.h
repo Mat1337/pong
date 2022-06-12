@@ -6,10 +6,12 @@
 #define PONG_CLONE_GAME_H
 
 #include "player.h"
+#include "ball.h"
 #include "../util/list.h"
 
 typedef struct {
     LIST *players;
+    LIST *balls;
 } GAME;
 
 /**
@@ -24,10 +26,13 @@ void game_start(GAME *game);
 /**
  * Adds a player to the game
  *
- * @param controls_ptr pointer to the controls that you want to use for the player
+ * @param game game that you want to add player to
+ * @param padding horizontal padding
+ * @param key_up key that when pressed will move the player up
+ * @param key_down key that when pressed will move the player down
  */
 
-void game_add_player(GAME *game, int key_up, int key_down);
+void game_add_player(GAME *game, float padding, int key_up, int key_down);
 
 /**
  * Renders the players in game to the screen
@@ -37,6 +42,23 @@ void game_add_player(GAME *game, int key_up, int key_down);
  */
 
 void game_render_players(GAME *game, float time_step);
+
+/**
+ * Adds a ball to the game
+ *
+ * @param game game that you want to add the ball to
+ */
+
+void game_add_ball(GAME *game);
+
+/**
+ * Renders the balls in the game screen
+ *
+ * @param game game that you want to render
+ * @param time_step time since the last render call
+ */
+
+void game_render_balls(GAME *game, float time_step);
 
 /**
  * Stops the game session

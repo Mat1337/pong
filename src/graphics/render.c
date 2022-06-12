@@ -6,6 +6,8 @@
 #include "font.h"
 #include "shader.h"
 
+#include <math.h>
+
 // location of the color uniform in the texture shader
 int shader_texture_color_uniform;
 
@@ -52,6 +54,26 @@ void render_setup_overlay(int width, int height) {
 void render_blend(GLenum s_factor, GLenum d_factor) {
     glEnable(GL_BLEND);
     glBlendFunc(s_factor, d_factor);
+}
+
+/**
+ * Renders a circle
+ *
+ * @param x x coordinate of the quad
+ * @param y y coordinate of the quad
+ * @param radius radius of the circle
+ */
+
+void render_circle(float x, float y, float radius) {
+    glBegin(GL_TRIANGLE_FAN);
+    glVertex2f(x, y);
+    for (int i = 0; i <= 180; i++) {
+        glVertex2f(
+                x + (radius * cosf((float) i * 6.28f / 180.0f)),
+                y + (radius * sinf((float) i * 6.28f / 180.0f))
+        );
+    }
+    glEnd();
 }
 
 /**

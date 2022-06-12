@@ -16,16 +16,13 @@ void game_show() {
     game_start(&game);
 
     // add the first player
-    game_add_player(&game,
-                    GLFW_KEY_W,
-                    GLFW_KEY_S
-    );
+    game_add_player(&game, 15, GLFW_KEY_W, GLFW_KEY_S);
 
     // add the second player
-    game_add_player(&game,
-                    GLFW_KEY_UP,
-                    GLFW_KEY_DOWN
-    );
+    game_add_player(&game, 15, GLFW_KEY_UP, GLFW_KEY_DOWN);
+
+    // add the ball to the game
+    game_add_ball(&game);
 }
 
 /**
@@ -62,6 +59,9 @@ void game_render(float width, float height, float mouse_x, float mouse_y, float 
 
     // render all the players from the game
     game_render_players(&game, time_step);
+
+    // render all the balls from the game
+    game_render_balls(&game, time_step);
 }
 
 /**

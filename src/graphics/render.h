@@ -52,6 +52,16 @@ void render_setup_overlay(int width, int height);
 void render_blend(GLenum s_factor, GLenum d_factor);
 
 /**
+ * Renders a circle
+ *
+ * @param x x coordinate of the quad
+ * @param y y coordinate of the quad
+ * @param radius radius of the circle
+ */
+
+void render_circle(float x, float y, float radius);
+
+/**
  * Renders a line on the screen
  *
  * @param x1 first x coordinate of the line

@@ -8,14 +8,12 @@
 #define PLAYER_WIDTH 10
 #define PLAYER_HEIGHT 150
 
+#include "../util/box.h"
 #include "../graphics/render.h"
 #include "../window/input/keyboard.h"
 
 typedef struct {
-    float x;
-    float y;
-    float width;
-    float height;
+    BOX box;
 
     int key_up;
     int key_down;
