@@ -93,8 +93,8 @@ void game_add_ball(GAME *game) {
     ball->box.y = (((float) window_get_height() - ball->box.height) / 2.0f);
 
     // todo :: calculate starting velocities
-    ball->vel_x = 200;
-    ball->vel_y = -200;
+    ball->vel_x = 350;
+    ball->vel_y = -350;
 
     // add the ball to the list of the balls in the game
     list_add(game->balls, (void *) ball);
@@ -129,20 +129,14 @@ void game_render_balls(GAME *game, float time_step) {
 
 /**
  * Checks for any collision
+ *
+ * @param width width of the screen
+ * @param height height of the screen
  */
 
-void game_check_collisions(GAME *game) {
+void game_check_collisions(GAME *game, float width, float height) {
     // get the head of the list
     NODE *iterator = game->balls->head;
-
-    // if the iterator is invalid
-    if (iterator == NULL) {
-        // return out of the method there is nothing to free
-        return;
-    }
-
-    float width = (float) window_get_width();
-    float height = (float) window_get_height();
 
     // loop through the list
     while (iterator != NULL) {
@@ -151,17 +145,49 @@ void game_check_collisions(GAME *game) {
 
         // check for ball vertical collision with the edge of the screen
         if (ball->box.y < 0 || ball->box.y + ball->box.height > height) {
+            // invert the y velocity
             ball->vel_y *= -1;
         }
 
         // check for horizontal collision
         if (ball->box.x < 0 || ball->box.x + ball->box.width > width) {
+
+            // reset the ball position
+            ball->box.x = ((width - ball->box.width) / 2.0f);
+            ball->box.y = ((height - ball->box.height) / 2.0f);
+        }
+
+        // check for any collision with the players
+        game_check_player_collision(game, ball, width, height);
+
+        // update the iterator to the next node
+        iterator = iterator->next;
+    }
+}
+
+int game_check_player_collision(GAME *game, BALL *ball, float width, float height) {
+    // get the head of the list
+    NODE *iterator = game->players->head;
+
+    // loop through the list
+    while (iterator != NULL) {
+        // get the current player
+        PLAYER *player = (PLAYER *) iterator->data;
+
+        // if the player and the ball have collided
+        if (box_is_collided(&ball->box, &player->box)) {
+            // clamp the ball x position, so it does not go inside the player
+            ball->box.x = player->box.x - (ball->box.x > width / 2.0f ? ball->box.width : -player->box.width);
+
+            // invert the x velocity
             ball->vel_x *= -1;
         }
 
-        // cache the next item
+        // update the iterator to the next node
         iterator = iterator->next;
     }
+
+    return 0;
 }
 
 /**

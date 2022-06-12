@@ -51,6 +51,7 @@ void list_add(LIST *list, void *data) {
 
         // find the last element in the list
         while (iterator->next != NULL) {
+            // update the current iterator to the next node
             iterator = iterator->next;
         }
 

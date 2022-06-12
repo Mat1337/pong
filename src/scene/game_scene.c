@@ -64,7 +64,7 @@ void game_render(float width, float height, float mouse_x, float mouse_y, float 
     game_render_balls(&game, time_step);
 
     // check for any collisions
-    game_check_collisions(&game);
+    game_check_collisions(&game, width, height);
 }
 
 /**

@@ -62,9 +62,14 @@ void game_render_balls(GAME *game, float time_step);
 
 /**
  * Checks for any collision
+ *
+ * @param width width of the screen
+ * @param height height of the screen
  */
 
-void game_check_collisions(GAME *game);
+void game_check_collisions(GAME *game, float width, float height);
+
+int game_check_player_collision(GAME *game, BALL *ball, float width, float height);
 
 /**
  * Stops the game session

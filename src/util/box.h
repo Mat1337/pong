@@ -25,4 +25,14 @@ typedef struct {
 
 void box_render(BOX *box, int outline, int color);
 
+/**
+ * Checks if two boxes have collided
+ *
+ * @param first_box first box that you want to check
+ * @param second_box second box that you want to check
+ * @return 1 = collided, 0 = not collided
+ */
+
+int box_is_collided(BOX *first_box, BOX *second_box);
+
 #endif //PONG_CLONE_BOX_H
