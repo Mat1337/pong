@@ -159,7 +159,7 @@ void game_render_score(GAME *game, float width, float height, float time_step) {
         sprintf(score, "Score: %d", player->score);
 
         // render the score string to the screen
-        render_centered_text(score, x_start, 35);
+        render_centered_text(score, x_start, 45);
 
         // increment the x start for half of the width of the screen
         x_start += width / 2.0f;
@@ -187,7 +187,7 @@ void game_check_collisions(GAME *game, float width, float height) {
         BALL *ball = iterator->data;
 
         // check for ball vertical collision with the edge of the screen
-        if (ball->box.y < 0 || ball->box.y + ball->box.height > height) {
+        if (ball->box.y < 10 || ball->box.y + ball->box.height > height - 5) {
             // invert the y velocity
             ball->vel_y *= -1;
         }

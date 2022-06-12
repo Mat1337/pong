@@ -51,11 +51,19 @@ void game_key_press(int key_code, int mods) {
  */
 
 void game_render(float width, float height, float mouse_x, float mouse_y, float time_step) {
+    // render the line at the top
+    render_set_color(color_get((int) 0xffffffff));
+    render_quad(0, 0, width, 5);
+
+    // render the line at the bottom
+    render_set_color(color_get((int) 0xffffffff));
+    render_quad(0, height - 5, width, 5);
+
     // draw the dotted line in the middle
     float thickness = 1.5f;
     render_set_color(color_get((int) 0xffffffff));
-    render_dotted_line((width - thickness) / 2.0f, 35,
-                       (width - thickness) / 2.0f, height - 35, thickness, 0x000F);
+    render_dotted_line((width - thickness) / 2.0f, 10,
+                       (width - thickness) / 2.0f, height - 10, thickness, 0x000F);
 
     // render all the players from the game
     game_render_players(&game, width, height, time_step);

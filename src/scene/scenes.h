@@ -8,6 +8,7 @@
 // include all the scenes here
 #include "menu_scene.h"
 #include "game_scene.h"
+#include "settings_scene.h"
 
 /**
  * Shows the provided scene

@@ -14,12 +14,21 @@
  */
 
 void ball_render(BALL *ball, float time_step) {
+    // render the ball
+    render_set_color_argb((int) 0xffffffff);
+    render_circle(ball->box.x + ball->box.width / 2.0f, ball->box.y + ball->box.height / 2.0f, BALL_RADIUS);
+    render_set_color_argb((int) 0xff999999);
+    render_circle(ball->box.x + ball->box.width / 2.0f, ball->box.y + ball->box.height / 2.0f, BALL_RADIUS - 3);
+
+    // if the window does not have focus
+    if (!window_has_focus()) {
+        // return out of the method
+        return;
+    }
+
     // increment the position of the ball based on it's velocity
     ball->box.x += ball->vel_x * time_step;
     ball->box.y += ball->vel_y * time_step;
-
-    // render the ball
-    render_circle(ball->box.x + ball->box.width / 2.0f, ball->box.y + ball->box.height / 2.0f, BALL_RADIUS);
 }
 
 /**
