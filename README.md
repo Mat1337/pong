@@ -3,6 +3,14 @@
 # pong-clone
 clone of the pong game written in pure c
 
+# dependencies
+
+> [glfw](https://github.com/glfw/glfw)
+>
+> [glad](https://github.com/Dav1dde/glad)
+>
+>[freetype](https://github.com/freetype/freetype)
+
 # building
 
 ```
