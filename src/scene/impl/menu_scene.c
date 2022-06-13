@@ -20,13 +20,13 @@ void menu_render(float width, float height, float mouse_x, float mouse_y, float 
     render_centered_text("Main Menu", width / 2.0f, height / 4.0f);
 
     // define the offset on the y-axis
-    float offset = 0;
+    float offset = 25;
 
     // define the height of the button
     static float btn_height = 30;
 
     // if the play button was clicked
-    if (gui_centered_button("Play", width / 2.0f, height / 2.5f, 250, btn_height)) {
+    if (gui_centered_button("Play", width / 2.0f, height / 2.5f + offset, 250, btn_height)) {
 
         // show the game scene
         show_scene(&g_game_scene);

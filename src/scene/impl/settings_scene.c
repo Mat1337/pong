@@ -43,12 +43,13 @@ void settings_render(float width, float height, float mouse_x, float mouse_y, fl
         y += 25;
         start_sub_section("> Player 1", &x, &y);
         {
+            y += 15;
             item("Move Up   -> 'W'", &x, &y);
-            if (gui_button("Change", width - 155.0f, (float) y, 110, 30)) {
+            if (gui_button("Change", width - 155.0f, (float) y - 2.5f, 110, 30)) {
 
             }
             item("Move Down -> 'S'", &x, &y);
-            if (gui_button("Change", width - 155.0f, (float) y, 110, 30)) {
+            if (gui_button("Change", width - 155.0f, (float) y - 2.5f, 110, 30)) {
 
             }
         }
@@ -56,12 +57,13 @@ void settings_render(float width, float height, float mouse_x, float mouse_y, fl
         y += 25;
         start_sub_section("> Player 2", &x, &y);
         {
+            y += 15;
             item("Move Up   -> 'UP'", &x, &y);
-            if (gui_button("Change", width - 155.0f, (float) y, 110, 30)) {
+            if (gui_button("Change", width - 155.0f, (float) y - 2.5f, 110, 30)) {
 
             }
             item("Move Down -> 'DOWN'", &x, &y);
-            if (gui_button("Change", width - 155.0f, (float) y, 110, 30)) {
+            if (gui_button("Change", width - 155.0f, (float) y - 2.5f, 110, 30)) {
 
             }
         }
