@@ -5,7 +5,7 @@
 #ifndef PONG_CLONE_SETTINGS_SCENE_H
 #define PONG_CLONE_SETTINGS_SCENE_H
 
-#include "scenes.h"
+#include "../scenes.h"
 
 extern SCENE g_settings_scene;
 

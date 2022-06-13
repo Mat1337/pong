@@ -2,7 +2,7 @@
 // Created by mat on 6/12/2022.
 //
 
-#include "scenes.h"
+#include "../scenes.h"
 
 void settings_render(float width, float height, float mouse_x, float mouse_y, float time_step) {
     int x = 15, y = 15;

@@ -5,7 +5,7 @@
 #ifndef PONG_CLONE_MENU_SCENE_H
 #define PONG_CLONE_MENU_SCENE_H
 
-#include "scene.h"
+#include "../scene.h"
 
 // define a menu scene
 extern SCENE g_menu_scene;

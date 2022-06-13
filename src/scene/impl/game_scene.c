@@ -2,7 +2,7 @@
 // Created by mat on 6/11/2022.
 //
 
-#include "scenes.h"
+#include "../scenes.h"
 
 // define a pointer to the game struct
 GAME game;

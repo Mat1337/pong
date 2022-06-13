@@ -2,8 +2,8 @@
 // Created by mat on 6/11/2022.
 //
 
-#include "scenes.h"
-#include "../util/log.h"
+#include "../scenes.h"
+#include "../../util/log.h"
 
 /**
  * Gets called every render frame

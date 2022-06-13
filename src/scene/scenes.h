@@ -6,9 +6,9 @@
 #define PONG_CLONE_SCENES_H
 
 // include all the scenes here
-#include "menu_scene.h"
-#include "game_scene.h"
-#include "settings_scene.h"
+#include "impl/menu_scene.h"
+#include "impl/game_scene.h"
+#include "impl/settings_scene.h"
 
 /**
  * Shows the provided scene
