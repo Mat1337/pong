@@ -1,7 +1,7 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
 # pong-clone
-clone of the pong game written in pure c
+this project is a clone of the original pong game written in C programing language for a university project
 
 # dependencies
 
