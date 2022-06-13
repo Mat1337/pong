@@ -16,15 +16,6 @@
 #define LOG_ERROR(...)  log_print("ERROR: ", __VA_ARGS__)
 
 /**
- * Initializes the logging system
- *
- * @param file_name name of the file that you want to save the logs to
- * @return 0 = success, 1 = failed
- */
-
-int log_initialize(char *file_name);
-
-/**
  * Prints a log into the logging system
  *
  * @param prefix prefix of the log
@@ -33,11 +24,5 @@ int log_initialize(char *file_name);
  */
 
 void log_print(char *prefix, char *format, ...);
-
-/**
- * Frees the logging system from memory
- */
-
-void log_free();
 
 #endif //PONG_CLONE_LOG_H

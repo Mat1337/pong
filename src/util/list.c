@@ -96,4 +96,7 @@ void list_free(LIST *list) {
         // reset the iterator pointer
         iterator = temp;
     }
+
+    // free the list pointer
+    free(list);
 }

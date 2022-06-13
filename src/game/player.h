@@ -11,7 +11,6 @@
 
 #include "../util/box.h"
 #include "../window/window.h"
-#include "../graphics/render.h"
 #include "../window/input/keyboard.h"
 
 typedef struct {

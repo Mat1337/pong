@@ -4,7 +4,6 @@
 
 #include "game.h"
 #include "../util/log.h"
-#include "../window/window.h"
 
 /**
  * Starts a game session
@@ -97,9 +96,9 @@ void game_add_ball(GAME *game) {
 
     // set the base last hit based on the velocity of the ball
     if (ball->vel_x < 0) {
-        ball->last_hit = (PLAYER *) game->players->tail->data;
+       // ball->last_hit = (PLAYER *) game->players->tail->data;
     } else {
-        ball->last_hit = (PLAYER *) game->players->head->data;
+        //ball->last_hit = (PLAYER *) game->players->head->data;
     }
 
     // add the ball to the list of the balls in the game

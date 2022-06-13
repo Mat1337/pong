@@ -48,8 +48,8 @@ void menu_render(float width, float height, float mouse_x, float mouse_y, float 
     // if the quit button was clicked
     if (gui_centered_button("Quit", width / 2.0f, height / 2.5f + offset, 250, btn_height)) {
 
-        // exit the application
-        exit(0);
+        // close the window
+        window_close();
     }
 }
 

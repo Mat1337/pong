@@ -2,11 +2,11 @@
 // Created by mat on 6/9/2022.
 //
 
-#include "util/log.h"
-#include "util/rand.h"
 #include "graphics/render.h"
 #include "window/window.h"
 #include "scene/scenes.h"
+#include "util/rand.h"
+#include "util/log.h"
 
 /**
  * Gets called when the render context has been initialized
@@ -15,12 +15,6 @@
  */
 
 int on_init() {
-    // initialize the logging system
-    if (log_initialize("log.txt") != 0) {
-        // return out of the method with an error
-        return 1;
-    }
-
     // initialize the font from memory
     if (font_initialize("res/bit_font.ttf", 17) != 0) {
         // return out of the method with an error
@@ -220,9 +214,6 @@ void on_close() {
 
     // free font from memory
     font_free();
-
-    // free the logging system
-    log_free();
 }
 
 int main(void) {
@@ -244,8 +235,14 @@ int main(void) {
     // run the window
     window_run();
 
-    // close the window
-    window_close();
+    // free any data that the window takes up
+    window_free();
+
+    // call the on close callback
+    on_close();
+
+    // terminate the application
+    glfwTerminate();
 
     // return out of the application
     return 0;

@@ -73,9 +73,6 @@ void window_initialize() {
         return;
     }
 
-    // create the frame buffer
-    g_window.framebuffer = framebuffer_create(g_window.width, g_window.height);
-
     // setup the window callbacks
     glfwSetWindowSizeCallback(g_window.handle, &on_window_resize);
     glfwSetWindowFocusCallback(g_window.handle, &on_window_focus_change);
@@ -153,9 +150,6 @@ int window_has_focus() {
  */
 
 void window_free() {
-    // free the framebuffer
-    framebuffer_free(g_window.framebuffer);
-
     // free the window callbacks
     glfwSetWindowSizeCallback(g_window.handle, NULL);
     glfwSetWindowFocusCallback(g_window.handle, NULL);
@@ -172,12 +166,6 @@ void window_free() {
  */
 
 void window_close() {
-    // free any memory that the window took
-    window_free();
-
-    // call the on close function
-    on_close();
-
-    // terminate the glfw
-    glfwTerminate();
+    // queue the window for closing
+    glfwSetWindowShouldClose(g_window.handle, GL_TRUE);
 }

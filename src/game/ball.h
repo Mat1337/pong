@@ -13,7 +13,6 @@
 #include "../util/math.h"
 #include "../util/rand.h"
 #include "../util/box.h"
-#include "../graphics/render.h"
 
 typedef struct {
     BOX box;
