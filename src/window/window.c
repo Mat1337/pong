@@ -96,9 +96,6 @@ void window_run() {
         // update the time step
         time_step_update();
 
-        // bind the framebuffer
-        framebuffer_bind(g_window.framebuffer);
-
         // clear the screen color buffer
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -109,15 +106,6 @@ void window_run() {
         // call the render function
         on_render((float) g_window.width, (float) g_window.height,
                   g_mouse.x, g_mouse.y, time_step_get());
-
-        // unbind the frame buffer
-        framebuffer_unbind();
-
-        // bind the framebuffer texture
-        framebuffer_bind_texture(g_window.framebuffer);
-
-        // bind the framebuffer texture
-        framebuffer_render(g_window.framebuffer);
 
         // swap front and back buffers
         glfwSwapBuffers(g_window.handle);
