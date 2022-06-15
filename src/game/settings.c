@@ -19,12 +19,12 @@ void settings_initialize() {
     // if the file failed to open add the default binds
     if (file == NULL) {
         // add the default binds for the first player
-        settings_add_bind("Player 1", 0, ACTION_MOVE_UP, GLFW_KEY_W);
-        settings_add_bind("Player 1", 0, ACTION_MOVE_DOWN, GLFW_KEY_S);
+        settings_add_bind("Player 1", 1, ACTION_MOVE_UP, GLFW_KEY_W);
+        settings_add_bind("Player 1", 1, ACTION_MOVE_DOWN, GLFW_KEY_S);
 
         // add the default binds for the second player
-        settings_add_bind("Player 2", 1, ACTION_MOVE_UP, GLFW_KEY_UP);
-        settings_add_bind("Player 2", 1, ACTION_MOVE_DOWN, GLFW_KEY_DOWN);
+        settings_add_bind("Player 2", 0, ACTION_MOVE_UP, GLFW_KEY_UP);
+        settings_add_bind("Player 2", 0, ACTION_MOVE_DOWN, GLFW_KEY_DOWN);
     } else {
         // read all the binds
         settings_read(file);

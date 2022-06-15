@@ -37,10 +37,13 @@ void start_section(char *name, int *x, int *y) {
 
 void start_sub_section(char *name, int *x, int *y) {
     // increment the x by the padding amount
-    *y += PADDING_Y;
+    *y += PADDING_Y / 2.0f;
 
     // start the section
     start_section(name, x, y);
+
+    // increment the x by the padding amount
+    *y += PADDING_Y / 2.0f;
 }
 
 void item(BIND *bind, int *x, int *y, float width) {
