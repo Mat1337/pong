@@ -5,6 +5,7 @@
 #ifndef PONG_CLONE_WINDOW_H
 #define PONG_CLONE_WINDOW_H
 
+#include <stb_image.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 

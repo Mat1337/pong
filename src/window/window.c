@@ -61,6 +61,21 @@ void window_initialize() {
         return;
     }
 
+    // load the icon image
+    int icon_width, icon_height;
+    unsigned char *icon_data = stbi_load("res/app.png", &icon_width, &icon_height,
+                                         NULL, STBI_rgb_alpha);
+
+    // set the window icon
+    glfwSetWindowIcon(g_window.handle, 1, &((GLFWimage) {
+            icon_width,
+            icon_height,
+            icon_data
+    }));
+
+    // free the icon data
+    stbi_image_free(icon_data);
+
     // make current context
     glfwMakeContextCurrent(g_window.handle);
 
