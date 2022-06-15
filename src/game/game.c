@@ -24,14 +24,18 @@ void game_start(GAME *game) {
  * Adds a player to the game
  *
  * @param game game that you want to add player to
+ * @param name name of the player
  * @param padding horizontal padding
  * @param key_up key that when pressed will move the player up
  * @param key_down key that when pressed will move the player down
  */
 
-void game_add_player(GAME *game, float padding, int key_up, int key_down) {
+void game_add_player(GAME *game, char *name, float padding, int key_up, int key_down) {
     // define space in memory for the player
     PLAYER *player = (PLAYER *) malloc(sizeof(PLAYER));
+
+    // set the name of the player
+    player->name = name;
 
     // setup the player data
     player->box.x = game->players->size == 0 ? padding : (float) window_get_width() - padding * 2;
@@ -52,6 +56,7 @@ void game_add_player(GAME *game, float padding, int key_up, int key_down) {
  * Renders the players from game to the screen
  *
  * @param game game that you want to render
+ * @param name name of the player
  * @param width width of the screen
  * @param height height of the screen
  * @param time_step time since the last render call
@@ -96,9 +101,9 @@ void game_add_ball(GAME *game) {
 
     // set the base last hit based on the velocity of the ball
     if (ball->vel_x < 0) {
-       // ball->last_hit = (PLAYER *) game->players->tail->data;
+        ball->last_hit = (PLAYER *) game->players->tail->data;
     } else {
-        //ball->last_hit = (PLAYER *) game->players->head->data;
+        ball->last_hit = (PLAYER *) game->players->head->data;
     }
 
     // add the ball to the list of the balls in the game
@@ -153,12 +158,19 @@ void game_render_score(GAME *game, float width, float height, float time_step) {
         // get the current player
         PLAYER *player = (PLAYER *) iterator->data;
 
-        // build the score string
-        char score[256];
-        sprintf(score, "Score: %d", player->score);
+        // build the name string
+        char name[256];
+        sprintf(name, "%s", player->name);
 
         // render the score string to the screen
-        render_centered_text(score, x_start, 45);
+        render_centered_text(name, x_start, 45);
+
+        // build the score string
+        char score[256];
+        sprintf(score, "%d", player->score);
+
+        // render the score string to the screen
+        render_centered_text(score, x_start, 80);
 
         // increment the x start for half of the width of the screen
         x_start += width / 2.0f;

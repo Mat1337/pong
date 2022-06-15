@@ -16,6 +16,8 @@
 typedef struct {
     BOX box;
 
+    char *name;
+
     int key_up;
     int key_down;
 

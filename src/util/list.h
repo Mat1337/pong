@@ -37,6 +37,25 @@ LIST *list_create();
 void list_add(LIST *list, void *data);
 
 /**
+ * Gets an item from the list
+ *
+ * @param list list that you want to get the item from
+ * @param index index of the item
+ * @return pointer to the item
+ */
+
+void *list_get(LIST *list, int index);
+
+/**
+ * Gets the size of the list
+ *
+ * @param list list that you want to get the size of
+ * @return size of the list
+ */
+
+int list_size(LIST *list);
+
+/**
  * Frees the list from the memory
  *
  * @param list list that you want to free

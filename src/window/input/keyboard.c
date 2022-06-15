@@ -39,6 +39,11 @@ void on_key_input(GLFWwindow *window, int key, int scancode, int action, int mod
  */
 
 const char *key_get_name(int key_code) {
+    if (key_code == GLFW_KEY_UP) {
+        return "UP";
+    } else if (key_code == GLFW_KEY_DOWN) {
+        return "DOWN";
+    }
     return glfwGetKeyName(key_code, glfwGetKeyScancode(key_code));
 }
 

@@ -16,10 +16,14 @@ void game_show() {
     game_start(&game);
 
     // add the first player
-    game_add_player(&game, 15, GLFW_KEY_W, GLFW_KEY_S);
+    game_add_player(&game, "Player 1",
+                    15, settings_get_bind(1, ACTION_MOVE_UP)->key_code,
+                    settings_get_bind(1, ACTION_MOVE_DOWN)->key_code);
 
     // add the second player
-    game_add_player(&game, 15, GLFW_KEY_UP, GLFW_KEY_DOWN);
+    game_add_player(&game, "Player 2",
+                    15, settings_get_bind(0, ACTION_MOVE_UP)->key_code,
+                    settings_get_bind(0, ACTION_MOVE_DOWN)->key_code);
 
     // add the ball to the game
     game_add_ball(&game);

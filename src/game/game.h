@@ -7,6 +7,7 @@
 
 #include "player.h"
 #include "ball.h"
+#include "settings.h"
 
 #include "../util/math.h"
 #include "../util/rand.h"
@@ -30,12 +31,13 @@ void game_start(GAME *game);
  * Adds a player to the game
  *
  * @param game game that you want to add player to
+ * @param name name of the player
  * @param padding horizontal padding
  * @param key_up key that when pressed will move the player up
  * @param key_down key that when pressed will move the player down
  */
 
-void game_add_player(GAME *game, float padding, int key_up, int key_down);
+void game_add_player(GAME *game, char *name, float padding, int key_up, int key_down);
 
 /**
  * Renders the players in game to the screen

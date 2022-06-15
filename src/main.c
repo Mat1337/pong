@@ -27,6 +27,9 @@ int on_init() {
     // initialize the renderer
     render_initialize();
 
+    // initialize all the settings
+    settings_initialize();
+
     // show the menu scene
     show_scene(&g_menu_scene);
 
@@ -214,6 +217,9 @@ void on_close() {
 
     // free font from memory
     font_free();
+
+    // free all the settings
+    settings_free();
 }
 
 int main(void) {
