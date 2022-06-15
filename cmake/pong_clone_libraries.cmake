@@ -36,4 +36,12 @@ set(GLAD_DIRECTORY "${VENDOR_DIRECTORY}/glad")
 # add the glad directory as a sub directory
 add_subdirectory(${GLAD_DIRECTORY})
 
+############### STB_IMAGE #####################
+
+# set the flag directory
+set(STB_IMAGE_DIRECTORY "${VENDOR_DIRECTORY}/stb_image")
+
+# add the glad directory as a sub directory
+add_subdirectory(${STB_IMAGE_DIRECTORY})
+
 ###############################################

@@ -16,7 +16,7 @@ MACRO(ADD_APP name)
     add_executable(${name} ${SOURCE_LIST} ${APP_ICON_RESOURCE_WINDOWS})
 
     # link all the libraries
-    target_link_libraries(${name} freetype glfw glad OpenGL::GL)
+    target_link_libraries(${name} freetype glfw glad stb_image OpenGL::GL)
 
     # tell MSVC to use main instead of WinMain for windows subsystem executables
     if (MSVC)
