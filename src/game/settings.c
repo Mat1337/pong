@@ -4,7 +4,12 @@
 
 #include "settings.h"
 
+// used for storing all the binds for the players
 LIST *binds[2];
+
+/**
+ * Initializes the settings
+ */
 
 void settings_initialize() {
     // create the list that will hold binds for the first player
@@ -31,6 +36,15 @@ void settings_initialize() {
     }
 }
 
+/**
+ * Adds a bind to the settings
+ *
+ * @param player player that you want to add the bind to
+ * @param id id of the player
+ * @param action action of the bind
+ * @param key_code key code of the bind
+ */
+
 void settings_add_bind(char *player, int id, int action, int key_code) {
     // allocate memory for the binds
     BIND *bind = (BIND *) malloc(sizeof(BIND));
@@ -44,36 +58,79 @@ void settings_add_bind(char *player, int id, int action, int key_code) {
     list_add(binds[id], bind);
 }
 
+/**
+ * Gets a bind based on the id and the action
+ *
+ * @param id id of the player
+ * @param action action that you want to get the setting for
+ * @return pointer to the bind struct
+ */
+
 BIND *settings_get_bind(int id, int action) {
+    // get the list of binds based on the id
     LIST *list = binds[id];
 
+    // get the iterator from the list
     NODE *iterator = list->head;
+
+    // loop through the list
     while (iterator != NULL) {
+        // get the current bind
         BIND *bind = (BIND *) iterator->data;
+
+        // if the binds action matches the provided action
         if (bind->action == action) {
+            // return the bind
             return bind;
         }
+
+        // else continue iterating through the list
         iterator = iterator->next;
     }
 
+    // if nothing was found return NULL
     return NULL;
 }
 
+/**
+ * Reads all the settings from a file
+ *
+ * @param file file that you want to read from
+ */
+
 void settings_read(FILE *file) {
+    // allocate a bind that element gets read into
     BIND *bind = (BIND *) malloc(sizeof(BIND));
+
+    // loop until there is nothing to read in the file
     while (fread(bind, sizeof(BIND), 1, file)) {
+
+        // allocate a bind
         BIND *tmp = (BIND *) malloc(sizeof(BIND));
+
+        // copy all the temp data into the bind
         strcpy(tmp->player, bind->player);
         tmp->action = bind->action;
         tmp->key_code = bind->key_code;
 
+        // and add the bind to the list
         if (strcmp(tmp->player, "Player 1")) {
             list_add(binds[0], tmp);
         } else {
             list_add(binds[1], tmp);
         }
     }
+
+    // free the temp bind data
+    free(bind);
 }
+
+/**
+ * Writes a list to the settings file
+ *
+ * @param file file that you want to write to
+ * @param list list that you want to write
+ */
 
 void settings_write(FILE *file, LIST *list) {
     // get the iterator for the list
@@ -88,6 +145,10 @@ void settings_write(FILE *file, LIST *list) {
         iterator = iterator->next;
     }
 }
+
+/**
+ * Saves all the settings
+ */
 
 void settings_save() {
     // open the file handle to the settings file
@@ -114,6 +175,10 @@ void settings_save() {
     // close the file
     fclose(file);
 }
+
+/**
+ * Frees all the data that the settings take up
+ */
 
 void settings_free() {
     // save all the settings
