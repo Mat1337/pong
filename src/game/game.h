@@ -5,6 +5,8 @@
 #ifndef PONG_CLONE_GAME_H
 #define PONG_CLONE_GAME_H
 
+#define GAME_VERTICAL_WALL_HEIGHT 5
+
 #include "player.h"
 #include "ball.h"
 #include "settings.h"

@@ -3,7 +3,7 @@
 //
 
 #include "player.h"
-
+#include "game.h"
 
 /**
  * Renders the player onto the screen
@@ -34,4 +34,8 @@ void player_render(PLAYER *player, float width, float height, float time_step) {
     } else if (key_is_down(player->key_down)) {
         player->box.y += PLAYER_SPEED * time_step;
     }
+
+    // clamp the player, so it does not go outside the screen
+    player->box.y = MAX(player->box.y, GAME_VERTICAL_WALL_HEIGHT * 2);
+    player->box.y = MIN(player->box.y, height - player->box.height - GAME_VERTICAL_WALL_HEIGHT * 2);
 }
