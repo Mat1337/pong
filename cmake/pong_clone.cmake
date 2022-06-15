@@ -1,3 +1,6 @@
+# set the app icon location for windows
+set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_HOME_DIRECTORY}/cmake/resource/app.rc")
+
 # setup the resources directory
 set(RESOURCES_DIRECTORY "${CMAKE_HOME_DIRECTORY}/res")
 
@@ -10,7 +13,7 @@ MACRO(ADD_APP name)
     file(GLOB_RECURSE SOURCE_LIST "${SOURCES_DIRECTORY}/*.c")
 
     # create the executable
-    add_executable(${name} ${SOURCE_LIST})
+    add_executable(${name} ${SOURCE_LIST} ${APP_ICON_RESOURCE_WINDOWS})
 
     # link all the libraries
     target_link_libraries(${name} freetype glfw glad OpenGL::GL)

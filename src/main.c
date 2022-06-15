@@ -16,7 +16,7 @@
 
 int on_init() {
     // initialize the font from memory
-    if (font_initialize("res/bit_font.ttf", 17) != 0) {
+    if (font_initialize("res/font/bit_font.ttf", 17) != 0) {
         // return out of the method with an error
         return 1;
     }
