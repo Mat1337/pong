@@ -10,6 +10,8 @@ this project is a clone of the original pong game written in C programing langua
 > [glad](https://github.com/Dav1dde/glad)
 >
 >[freetype](https://github.com/freetype/freetype)
+> 
+> [stb](https://github.com/nothings/stb)
 
 # building
 
