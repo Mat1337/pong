@@ -9,15 +9,15 @@
 
 int gui_button(char *label, float x, float y, float width, float height) {
     // draw the background of the button
-    render_set_color_argb(mouse_is_hovered(x, y, width, height) ? 0x77004477 : 0x66003366);
+    render_set_color_argb(mouse_is_hovered(x, y, width, height) ? (int) 0xff333333 : (int) 0xff222222);
     render_quad(x, y, width, height);
 
     // draw the outline of the button
-    render_set_color_argb((int) 0x88006688);
+    render_set_color_argb((int) 0xff444444);
     render_quad_outline(x, y, width, height, 1);
 
     // draw the label of the button
-    render_centered_text(label, x + width / 2.0f - 2, y + height / 2.0f + 2);
+    render_centered_text(label, x + width / 2.0f - 3, y + height / 2.0f + 2, 0xffeeeeee);
 
     // check if the button was clicked
     return mouse_is_clicked(x, y, width, height);

@@ -61,6 +61,11 @@ void window_initialize() {
         return;
     }
 
+    // make the window start in the middle of the screen
+    const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+    glfwSetWindowPos(g_window.handle, (mode->width - g_window.width) / 2,
+                     (mode->height - g_window.height) / 2);
+
     // load the icon image
     int icon_width, icon_height;
     unsigned char *icon_data = stbi_load("res/app.png", &icon_width, &icon_height,
