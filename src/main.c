@@ -2,6 +2,8 @@
 // Created by mat on 6/9/2022.
 //
 
+#include "graphics/framebuffer.h"
+#include "graphics/texture.h"
 #include "graphics/render.h"
 #include "window/window.h"
 #include "scene/scenes.h"
@@ -20,9 +22,6 @@ int on_init() {
         // return out of the method with an error
         return 1;
     }
-
-    // load all the shaders into the memory
-    shader_load_shaders();
 
     // initialize the renderer
     render_initialize();

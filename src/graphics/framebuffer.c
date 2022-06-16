@@ -72,7 +72,7 @@ void framebuffer_bind_texture(FRAMEBUFFER *framebuffer) {
  * @param framebuffer framebuffer that you want to render
  */
 
-void framebuffer_render(FRAMEBUFFER *framebuffer) {
+void framebuffer_render(FRAMEBUFFER *framebuffer, float x, float y, float width, float height) {
     // setup the color masking filter
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_FALSE);
 
@@ -91,7 +91,7 @@ void framebuffer_render(FRAMEBUFFER *framebuffer) {
     glColor4f(1, 1, 1, 1);
 
     // render the frame buffer
-    render_textured_quad(0, 0, (float) framebuffer->width, (float) framebuffer->height);
+    render_textured_quad(x, y, width, height);
 }
 
 /**

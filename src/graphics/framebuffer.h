@@ -49,7 +49,7 @@ void framebuffer_bind_texture(FRAMEBUFFER *framebuffer);
  * @param framebuffer framebuffer that you want to render
  */
 
-void framebuffer_render(FRAMEBUFFER *framebuffer);
+void framebuffer_render(FRAMEBUFFER *framebuffer, float x, float y, float width, float height);
 
 /**
  * Unbinds the framebuffer

@@ -18,6 +18,9 @@ int current_shader;
 void shader_load_shaders() {
     // load the texture shaders
     SHADERS[SHADER_TEXTURE] = shader_load("texture");
+
+    // load the crt shader
+    SHADERS[SHADER_CRT] = shader_load("crt");
 }
 
 /**
@@ -29,6 +32,11 @@ void shader_load_shaders() {
 void shader_start(SHADER shader) {
     // update the active shader
     current_shader = SHADERS[shader];
+
+    if (current_shader == -1) {
+        LOG_ERROR("Invalid shader: %d", shader);
+        return;
+    }
 
     // use the provided shader
     glUseProgram(current_shader);
@@ -55,6 +63,27 @@ void shader_uniform_vec4(int uniform, float x, float y, float z, float w) {
 
     // upload the values to the gpu
     glUniform4f(uniform, x, y, z, w);
+}
+
+/**
+ * Uploads vector of 2 floats
+ *
+ * @param x x value vector
+ * @param y y value vector
+ */
+
+void shader_uniform_vec2(int uniform, float x, float y) {
+    // if the provided uniform location is invalid
+    if (uniform == -1) {
+        // log the error
+        LOG_ERROR("Invalid uniform location: '%d'", uniform);
+
+        // return out of the method
+        return;
+    }
+
+    // upload the values to the gpu
+    glUniform2f(uniform, x, y);
 }
 
 /**

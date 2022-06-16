@@ -180,7 +180,7 @@ void settings_render(float width, float height, float mouse_x, float mouse_y, fl
     end_section(&x, &y);
 
     // add the back button that takes you to the main menu
-    if (gui_button("Back", 15, height - 45, 150, 30)) {
+    if (gui_button("Back", 35, height - 45, 150, 30)) {
         // if the button is clicked show the main menu scene
         show_scene(&g_menu_scene);
     }

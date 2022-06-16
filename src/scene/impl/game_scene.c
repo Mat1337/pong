@@ -56,12 +56,12 @@ void game_key_press(int key_code, int mods) {
 
 void game_render(float width, float height, float mouse_x, float mouse_y, float time_step) {
     // render the line at the top
-    render_set_color(color_get((int) 0xffffffff));
-    render_quad(0, 0, width, GAME_VERTICAL_WALL_HEIGHT);
+   // render_set_color(color_get((int) 0xffffffff));
+    //render_quad(0, 0, width, GAME_VERTICAL_WALL_HEIGHT);
 
     // render the line at the bottom
-    render_set_color(color_get((int) 0xffffffff));
-    render_quad(0, height - GAME_VERTICAL_WALL_HEIGHT, width, GAME_VERTICAL_WALL_HEIGHT);
+   // render_set_color(color_get((int) 0xffffffff));
+    //render_quad(0, height - GAME_VERTICAL_WALL_HEIGHT, width, GAME_VERTICAL_WALL_HEIGHT);
 
     // draw the dotted line in the middle
     float thickness = 1.5f;

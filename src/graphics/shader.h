@@ -17,6 +17,7 @@
 
 typedef enum {
     SHADER_TEXTURE = 0,
+    SHADER_CRT,
     SHADER_RESERVED
 } SHADER;
 
@@ -44,6 +45,15 @@ void shader_start(SHADER shader);
  */
 
 void shader_uniform_vec4(int uniform, float x, float y, float z, float w);
+
+/**
+ * Uploads vector of 2 floats
+ *
+ * @param x x value vector
+ * @param y y value vector
+ */
+
+void shader_uniform_vec2(int uniform, float x, float y);
 
 /**
  * Gets a uniform location based on its name

@@ -93,6 +93,9 @@ void window_initialize() {
         return;
     }
 
+    // load all the shaders into the memory
+    shader_load_shaders();
+
     // setup the window callbacks
     glfwSetWindowSizeCallback(g_window.handle, &on_window_resize);
     glfwSetWindowFocusCallback(g_window.handle, &on_window_focus_change);
@@ -120,9 +123,12 @@ void window_run() {
         // setup the 2D rendering
         render_setup_overlay(g_window.width, g_window.height);
 
+        // get the width & height of the window
+        float width = (float) g_window.width;
+        float height = (float) g_window.height;
+
         // call the render function
-        on_render((float) g_window.width, (float) g_window.height,
-                  g_mouse.x, g_mouse.y, time_step_get());
+        on_render(width, height, g_mouse.x, g_mouse.y, time_step_get());
 
         // swap front and back buffers
         glfwSwapBuffers(g_window.handle);
