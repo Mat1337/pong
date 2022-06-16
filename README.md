@@ -3,6 +3,13 @@
 # pong-clone
 this project is a clone of the original pong game written in C programing language for a university project
 
+# showcase
+
+[![menu](https://i.imgur.com/MioH0Tn.png)](https://i.imgur.com/MioH0Tn.png)
+
+[![settings](https://i.imgur.com/kDxCdzF.png)](https://i.imgur.com/kDxCdzF.png)
+
+[![game](https://i.imgur.com/DXOE6P1.png)](https://i.imgur.com/DXOE6P1.png)
 # dependencies
 
 > [glfw](https://github.com/glfw/glfw)

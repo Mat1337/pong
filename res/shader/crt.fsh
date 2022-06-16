@@ -26,6 +26,4 @@ void main(void)
         // sample the texture
         gl_FragColor = vec4(mix(texture2D(u_Sampler, uv).rgb, vec3(0.0), apply), 1.0);
     }
-
-    gl_FragColor = vec4(1, 1, 1, 1);
 }

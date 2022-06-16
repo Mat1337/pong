@@ -17,6 +17,13 @@
 
 typedef struct window_t {
     GLFWwindow *handle;
+
+    // used for post-processing
+    FRAMEBUFFER *framebuffer;
+    FRAMEBUFFER *framebuffer_effect;
+    TEXTURE overlay_texture;
+    int crt_resolution_id;
+
     int width;
     int height;
     int has_focus;

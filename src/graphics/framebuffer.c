@@ -53,7 +53,12 @@ FRAMEBUFFER *framebuffer_create(int width, int height) {
  */
 
 void framebuffer_bind(FRAMEBUFFER *framebuffer) {
+    // bind the framebuffer
     glBindFramebuffer(GL_FRAMEBUFFER, framebuffer->fbo);
+
+    // clear the screen color buffer
+    glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 /**

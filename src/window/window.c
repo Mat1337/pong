@@ -96,6 +96,18 @@ void window_initialize() {
     // load all the shaders into the memory
     shader_load_shaders();
 
+    // load the crt shader
+    shader_load("crt");
+
+    // start the shader
+    shader_start(SHADER_CRT);
+
+    // get the resolution uniform
+    g_window.crt_resolution_id = shader_get_uniform("u_Resolution");
+
+    // stop the shader
+    shader_stop();
+
     // setup the window callbacks
     glfwSetWindowSizeCallback(g_window.handle, &on_window_resize);
     glfwSetWindowFocusCallback(g_window.handle, &on_window_focus_change);
@@ -104,6 +116,15 @@ void window_initialize() {
     glfwSetMouseButtonCallback(g_window.handle, &on_mouse_input);
     glfwSetCursorPosCallback(g_window.handle, &on_mouse_move);
     glfwSetKeyCallback(g_window.handle, &on_key_input);
+
+    // create the framebuffer
+    g_window.framebuffer = framebuffer_create(window_get_width(), window_get_height());
+
+    // create the effect framebuffer
+    g_window.framebuffer_effect = framebuffer_create(window_get_width(), window_get_height());
+
+    // load the overlay texture
+    g_window.overlay_texture = texture_load("res/tv_overlay.png");
 }
 
 /**
@@ -116,9 +137,8 @@ void window_run() {
         // update the time step
         time_step_update();
 
-        // clear the screen color buffer
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        // bind the framebuffer
+        framebuffer_bind(g_window.framebuffer);
 
         // setup the 2D rendering
         render_setup_overlay(g_window.width, g_window.height);
@@ -127,8 +147,50 @@ void window_run() {
         float width = (float) g_window.width;
         float height = (float) g_window.height;
 
+        render_set_color_argb((int) 0xff222222);
+        render_quad(0, 0, width, height);
+
         // call the render function
         on_render(width, height, g_mouse.x, g_mouse.y, time_step_get());
+
+        // unbind the framebuffer
+        framebuffer_unbind();
+
+        // bind the effect framebuffer
+        framebuffer_bind(g_window.framebuffer_effect);
+
+        // start the shader
+        shader_start(SHADER_CRT);
+
+        // upload the resolution to the shader
+        shader_uniform_vec2(g_window.crt_resolution_id, width, height);
+
+        // bind the framebuffer texture
+        framebuffer_bind_texture(g_window.framebuffer);
+
+        // render the framebuffer
+        framebuffer_render(g_window.framebuffer, 0, 0, width, height);
+
+        // stop the shader
+        shader_stop();
+
+        // unbind the effect framebuffer
+        framebuffer_unbind();
+
+        // bind the framebuffer texture
+        framebuffer_bind_texture(g_window.framebuffer_effect);
+
+        // render the framebuffer
+        framebuffer_render(g_window.framebuffer_effect, 40, 25, width - 195, height - 50);
+
+        // setup the overlay rendering
+        render_setup_overlay((int) width, (int) height);
+
+        // bind the overlay texture
+        glBindTexture(GL_TEXTURE_2D, g_window.overlay_texture.id);
+
+        // render the texture
+        render_textured_quad(0, 0, width, height);
 
         // swap front and back buffers
         glfwSwapBuffers(g_window.handle);
@@ -184,6 +246,9 @@ void window_free() {
     glfwSetMouseButtonCallback(g_window.handle, NULL);
     glfwSetCursorPosCallback(g_window.handle, NULL);
     glfwSetKeyCallback(g_window.handle, NULL);
+
+    // free the framebuffer
+    framebuffer_free(g_window.framebuffer);
 }
 
 
