@@ -2,9 +2,10 @@
 
 uniform vec2 u_Resolution;
 uniform sampler2D u_Sampler;
+uniform float u_Time;
 
-const float warp = 0.75;// simulate curvature of CRT monitor
-const float scan = 0.75;// simulate darkness between scanlines
+const float warp = 0.85;// simulate curvature of CRT monitor
+const float scan = 0.9;// simulate darkness between scanlines
 
 void main(void)
 {
@@ -22,7 +23,7 @@ void main(void)
         gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
     } else {
         // determine if we are drawing in a scanline
-        float apply = abs(sin(gl_FragCoord.y)*0.5*scan);
+        float apply = abs(sin(gl_FragCoord.y)* 0.5f * scan);
         // sample the texture
         gl_FragColor = vec4(mix(texture2D(u_Sampler, uv).rgb, vec3(0.0), apply), 1.0);
     }

@@ -3,7 +3,6 @@
 //
 
 #include "mouse.h"
-#include <stdio.h>
 
 // used for storing mouse movements
 MOUSE g_mouse;
@@ -26,6 +25,7 @@ void on_mouse_input(GLFWwindow *window, int button, int action, int mods) {
         g_click_point.x = g_mouse.x;
         g_click_point.y = g_mouse.y;
 
+        // pass the mouse press call
         on_mouse_press(button, g_mouse.x, g_mouse.y);
     }
     if (action == GLFW_RELEASE) {

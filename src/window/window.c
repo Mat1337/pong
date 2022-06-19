@@ -11,6 +11,12 @@ static const int HEIGHT = 480;
 // used for accessing window information
 WINDOW g_window;
 
+// used for dragging the window
+MOUSE g_drag_position = {
+        -1,
+        -1
+};
+
 /**
  * Gets called when the window is resized
  *
@@ -36,6 +42,45 @@ void on_window_focus_change(GLFWwindow *window_handle, int focused) {
 }
 
 /**
+ * Gets called when the mouse is pressed
+ *
+ * @param button button that was pressed
+ * @param x x coordinate of the mouse on the window
+ * @param y y coordinate of the mouse on the window
+ */
+
+
+void on_window_mouse_press(int button, float x, float y) {
+    // if the mouse is hovering the game framebuffer
+    if (mouse_is_hovered(g_window.frame_buffer_x, g_window.frame_buffer_y, g_window.frame_buffer_width,
+                         g_window.frame_buffer_height)) {
+        // return out of the method
+        return;
+    }
+
+    if (button == GLFW_MOUSE_BUTTON_LEFT) {
+        g_drag_position.x = x;
+        g_drag_position.y = y;
+    }
+}
+
+/**
+ * Gets called when the mouse is released
+ *
+ * @param button button that was pressed
+ * @param x x coordinate of the mouse on the window
+ * @param y y coordinate of the mouse on the window
+ */
+
+
+void on_window_mouse_release(int button, float x, float y) {
+    if (button == GLFW_MOUSE_BUTTON_LEFT) {
+        g_drag_position.x = -1;
+        g_drag_position.y = -1;
+    }
+}
+
+/**
  * Initializes the window
  */
 
@@ -52,6 +97,9 @@ void window_initialize() {
 
     // disable window resizing
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
+    // disabled the title bar
+    glfwWindowHint(GLFW_DECORATED, GL_FALSE);
 
     // create a windowed mode window and its opengl context
     g_window.handle = glfwCreateWindow(g_window.width, g_window.height, "Pong", NULL, NULL);
@@ -147,11 +195,30 @@ void window_run() {
         float width = (float) g_window.width;
         float height = (float) g_window.height;
 
+        // get the mouse positions
+        float mouse_x = g_mouse.x;
+        float mouse_y = g_mouse.y;
+
+        if (g_drag_position.x != -1 && g_drag_position.y != -1) {
+            float x_diff = (mouse_x - g_drag_position.x);
+            float y_diff = (mouse_y - g_drag_position.y);
+
+            int window_x, window_y;
+            glfwGetWindowPos(g_window.handle, &window_x, &window_y);
+
+            glfwSetWindowPos(g_window.handle, window_x + x_diff, window_y + y_diff);
+
+            g_window.has_focus = 0;
+        } else {
+            g_window.has_focus = 1;
+        }
+
+        // render the background
         render_set_color_argb((int) 0xff222222);
         render_quad(0, 0, width, height);
 
         // call the render function
-        on_render(width, height, g_mouse.x, g_mouse.y, time_step_get());
+        on_render(width, height, mouse_x, mouse_y, time_step_get());
 
         // unbind the framebuffer
         framebuffer_unbind();
@@ -164,6 +231,8 @@ void window_run() {
 
         // upload the resolution to the shader
         shader_uniform_vec2(g_window.crt_resolution_id, width, height);
+
+        //shader_uniform_vec1(g_window.crt_time_id, (float) glfwGetTime());
 
         // bind the framebuffer texture
         framebuffer_bind_texture(g_window.framebuffer);
@@ -180,8 +249,18 @@ void window_run() {
         // bind the framebuffer texture
         framebuffer_bind_texture(g_window.framebuffer_effect);
 
+        // setup the framebuffer data
+        g_window.frame_buffer_x = 40;
+        g_window.frame_buffer_y = 25;
+        g_window.frame_buffer_width = width - 195;
+        g_window.frame_buffer_height = height - 50;
+
         // render the framebuffer
-        framebuffer_render(g_window.framebuffer_effect, 40, 25, width - 195, height - 50);
+        framebuffer_render(g_window.framebuffer_effect,
+                           g_window.frame_buffer_x,
+                           g_window.frame_buffer_y,
+                           g_window.frame_buffer_width,
+                           g_window.frame_buffer_height);
 
         // setup the overlay rendering
         render_setup_overlay((int) width, (int) height);
@@ -222,6 +301,47 @@ int window_get_width() {
 int window_get_height() {
     return g_window.height;
 }
+
+/**
+ * Gets the start x location of the framebuffer
+ *
+ * @return x coordinate of the framebuffer
+ */
+
+float window_framebuffer_x() {
+    return g_window.frame_buffer_x;
+}
+
+/**
+ * Gets the start y location of the framebuffer
+ *
+ * @return y coordinate of the framebuffer
+ */
+
+float window_framebuffer_y() {
+    return g_window.frame_buffer_y;
+}
+
+/**
+ * Gets the width of the framebuffer
+ *
+ * @return width of the framebuffer
+ */
+
+float window_framebuffer_width() {
+    return g_window.frame_buffer_width;
+}
+
+/**
+ * Gets the height of the framebuffer
+ *
+ * @return height of the framebuffer
+ */
+
+float window_framebuffer_height() {
+    return g_window.frame_buffer_height;
+}
+
 
 /**
  * Checks if the window has focus

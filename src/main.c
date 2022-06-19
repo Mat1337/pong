@@ -3,7 +3,6 @@
 //
 
 #include "graphics/framebuffer.h"
-#include "graphics/texture.h"
 #include "graphics/render.h"
 #include "window/window.h"
 #include "scene/scenes.h"
@@ -33,7 +32,7 @@ int on_init() {
     show_scene(&g_menu_scene);
 
     // log to console that the application has been initialized
-    LOG_INFO("Application has been %s [%d]", "Initialized", glfwGetTime());
+    LOG_INFO("Application has been %s [%f]", "Initialized", glfwGetTime());
 
     // return 0 meaning initialization was successful
     return 0;
@@ -48,6 +47,9 @@ int on_init() {
  */
 
 void on_mouse_press(int button, float x, float y) {
+    // pass the press call to the window
+    on_window_mouse_press(button, x, y);
+
     // if the window does not have focus
     if (!window_has_focus()) {
         // return out of the method
@@ -76,6 +78,9 @@ void on_mouse_press(int button, float x, float y) {
  */
 
 void on_mouse_release(int button, float x, float y) {
+    // pass the press call to the window
+    on_window_mouse_release(button, x, y);
+
     // if the window does not have focus
     if (!window_has_focus()) {
         // return out of the method
@@ -184,7 +189,7 @@ void on_render(float width, float height, float mouse_x, float mouse_y, float ti
     // if the window does not have focus
     if (!window_has_focus()) {
         // render the overlay over the game
-        render_set_color_argb((int) 0xEE222222);
+        render_set_color_argb((int) 0xEE111111);
         render_quad(0, 0, width, height);
 
         // draw the glowing game paused text

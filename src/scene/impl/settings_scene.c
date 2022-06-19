@@ -10,6 +10,9 @@
 // pointer to the bind that is currently being modified
 BIND *current_bind = NULL;
 
+// define a pointer where the menu will be stored into
+MENU *settings_menu = NULL;
+
 /**
  * Starts a named section
  *
@@ -63,10 +66,10 @@ void item(BIND *bind, int *x, int *y, float width) {
     render_text(name, *x + 150, *y);
 
     // add the change key bind button
-    if (gui_button("Change", width - 155.0f, (float) *y - 2.5f, 110, 30)) {
-        // update the bind to the current bind
-        current_bind = bind;
-    }
+    //if (gui_button("Change", width - 155.0f, (float) *y - 2.5f, 110, 30)) {
+    // update the bind to the current bind
+    //   current_bind = bind;
+    // }
 
     // decrement the padding from x-axis
     *x -= PADDING_X;
@@ -95,6 +98,21 @@ void end_section(int *x, int *y) {
     // subtract the padding from the x & y-axis
     *x -= PADDING_X;
     *y -= PADDING_Y;
+}
+
+/**
+ * Gets called when the settings scene is shown
+ */
+
+void settings_show() {
+    // create a new menu
+    settings_menu = gui_menu_create();
+
+    // get the width and the height of the window
+    float width = (float) window_get_width();
+    float height = (float) window_get_height();
+
+    gui_menu_button(settings_menu, "Settings", 35, height - 55, 150, 30);
 }
 
 /**
@@ -180,13 +198,24 @@ void settings_render(float width, float height, float mouse_x, float mouse_y, fl
     end_section(&x, &y);
 
     // add the back button that takes you to the main menu
-    if (gui_button("Back", 35, height - 55, 150, 30)) {
-        // if the button is clicked show the main menu scene
-        show_scene(&g_menu_scene);
-    }
+    //if (gui_button("Back", 35, height - 55, 150, 30)) {
+    // if the button is clicked show the main menu scene
+    //    show_scene(&g_menu_scene);
+    // }
+}
+
+/**
+ * Gets called when the settings scene is closed
+ */
+
+void settings_close() {
+    // free the menu from memory
+    gui_menu_free(settings_menu);
 }
 
 SCENE g_settings_scene = {
+        .show           =   settings_show,
         .key_release    =   settings_key_release,
-        .render         =   settings_render
+        .render         =   settings_render,
+        .close          =   settings_close
 };

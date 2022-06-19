@@ -24,6 +24,11 @@ typedef struct window_t {
     TEXTURE overlay_texture;
     int crt_resolution_id;
 
+    float frame_buffer_x;
+    float frame_buffer_y;
+    float frame_buffer_width;
+    float frame_buffer_height;
+
     int width;
     int height;
     int has_focus;
@@ -47,6 +52,28 @@ void on_window_resize(GLFWwindow *window_handle, int width, int height);
  */
 
 void on_window_focus_change(GLFWwindow *window_handle, int focused);
+
+/**
+ * Gets called when the mouse is pressed
+ *
+ * @param button button that was pressed
+ * @param x x coordinate of the mouse on the window
+ * @param y y coordinate of the mouse on the window
+ */
+
+
+void on_window_mouse_press(int button, float x, float y);
+
+/**
+ * Gets called when the mouse is released
+ *
+ * @param button button that was pressed
+ * @param x x coordinate of the mouse on the window
+ * @param y y coordinate of the mouse on the window
+ */
+
+
+void on_window_mouse_release(int button, float x, float y);
 
 /**
  * Initializes the window
@@ -75,6 +102,38 @@ int window_get_width();
  */
 
 int window_get_height();
+
+/**
+ * Gets the start x location of the framebuffer
+ *
+ * @return x coordinate of the framebuffer
+ */
+
+float window_framebuffer_x();
+
+/**
+ * Gets the start y location of the framebuffer
+ *
+ * @return y coordinate of the framebuffer
+ */
+
+float window_framebuffer_y();
+
+/**
+ * Gets the width of the framebuffer
+ *
+ * @return width of the framebuffer
+ */
+
+float window_framebuffer_width();
+
+/**
+ * Gets the height of the framebuffer
+ *
+ * @return height of the framebuffer
+ */
+
+float window_framebuffer_height();
 
 /**
  * Checks if the window has focus

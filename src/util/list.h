@@ -47,6 +47,16 @@ void list_add(LIST *list, void *data);
 void *list_get(LIST *list, int index);
 
 /**
+ * Gets the index of the node
+ *
+ * @param list list that you want to get the index from
+ * @param node node that you want to get the index from
+ * @return index of the node
+ */
+
+int list_index(LIST *list, NODE *node);
+
+/**
  * Gets the size of the list
  *
  * @param list list that you want to get the size of

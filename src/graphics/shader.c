@@ -87,6 +87,26 @@ void shader_uniform_vec2(int uniform, float x, float y) {
 }
 
 /**
+ * Uploads 1 float
+ *
+ * @param x value that you want to upload
+ */
+
+void shader_uniform_vec1(int uniform, float x) {
+    // if the provided uniform location is invalid
+    if (uniform == -1) {
+        // log the error
+        LOG_ERROR("Invalid uniform location: '%d'", uniform);
+
+        // return out of the method
+        return;
+    }
+
+    // upload the values to the gpu
+    glUniform1f(uniform, x);
+}
+
+/**
  * Gets a uniform location based on its name
  *
  * @param name name of the uniform

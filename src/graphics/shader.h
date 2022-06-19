@@ -56,6 +56,14 @@ void shader_uniform_vec4(int uniform, float x, float y, float z, float w);
 void shader_uniform_vec2(int uniform, float x, float y);
 
 /**
+ * Uploads 1 float
+ *
+ * @param x value that you want to upload
+ */
+
+void shader_uniform_vec1(int uniform, float x);
+
+/**
  * Gets a uniform location based on its name
  *
  * @param name name of the uniform

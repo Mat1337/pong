@@ -51,6 +51,7 @@ void list_add(LIST *list, void *data) {
 
         // find the last element in the list
         while (iterator->next != NULL) {
+
             // update the current iterator to the next node
             iterator = iterator->next;
         }
@@ -76,6 +77,18 @@ void list_add(LIST *list, void *data) {
 
 void *list_get(LIST *list, int index) {
     return (list->head + index)->data;
+}
+
+/**
+ * Gets the index of the node
+ *
+ * @param list list that you want to get the index from
+ * @param node node that you want to get the index from
+ * @return index of the node
+ */
+
+int list_index(LIST *list, NODE *node) {
+    return (int) (&node - &list->head);
 }
 
 /**
