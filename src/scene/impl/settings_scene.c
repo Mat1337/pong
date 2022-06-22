@@ -5,7 +5,7 @@
 #include "../scenes.h"
 
 #define PADDING_X 35
-#define PADDING_Y 35
+#define PADDING_Y 40
 
 // pointer to the bind that is currently being modified
 BIND *current_bind = NULL;
@@ -13,91 +13,27 @@ BIND *current_bind = NULL;
 // define a pointer where the menu will be stored into
 MENU *settings_menu = NULL;
 
-/**
- * Starts a named section
- *
- * @param name name of the section that you want to start
- * @param x pointer to the start x location
- * @param y pointer to the start y location
- */
+// pointer to the button that takes the player back to main menu
+BUTTON *back_btn;
 
-void start_section(char *name, int *x, int *y) {
-    // increment the x & y by the padding amount
-    *x += PADDING_X;
-    *y += PADDING_Y;
+// pointer to the change buttons for the first player
+BUTTON *player_1_up_btn;
+BUTTON *player_1_down_btn;
 
-    // render the name of the section
-    render_text(name, *x, *y);
-}
+// pointer to the change buttons for the second player
+BUTTON *player_2_up_btn;
+BUTTON *player_2_down_btn;
 
 /**
- * Starts a named sub-section
+ * Gets called when the button is clicked
  *
- * @param name name of the sub section that you want to start
- * @param x pointer to the start x location
- * @param y pointer to the start y location
+ * @param button button that was clicked
  */
 
-void start_sub_section(char *name, int *x, int *y) {
-    // increment the x by the padding amount
-    *y += PADDING_Y / 2.0f;
-
-    // start the section
-    start_section(name, x, y);
-
-    // increment the x by the padding amount
-    *y += PADDING_Y / 2.0f;
-}
-
-void item(BIND *bind, int *x, int *y, float width) {
-    // increment the x & y by the padding amount
-    *x += PADDING_X;
-    *y += PADDING_Y;
-
-    // allocate memory for the string building
-    char name[256];
-
-    // render the action string
-    sprintf(name, "%s", bind->action == ACTION_MOVE_UP ? "Move Up" : "Move Down");
-    render_text(name, *x, *y);
-
-    // render the key name string
-    sprintf(name, "->   '%s'", key_get_name(bind->key_code));
-    render_text(name, *x + 150, *y);
-
-    // add the change key bind button
-    //if (gui_button("Change", width - 155.0f, (float) *y - 2.5f, 110, 30)) {
-    // update the bind to the current bind
-    //   current_bind = bind;
-    // }
-
-    // decrement the padding from x-axis
-    *x -= PADDING_X;
-}
-
-/**
- * Ends a sub-section
- *
- * @param x pointer to the start x location
- * @param y pointer to the start y location
- */
-
-void end_sub_section(int *x, int *y) {
-    // subtract the padding from the x
-    *x -= PADDING_X;
-}
-
-/**
- * Ends a section
- *
- * @param x pointer to the start x location
- * @param y pointer to the start y location
- */
-
-void end_section(int *x, int *y) {
-    // subtract the padding from the x & y-axis
-    *x -= PADDING_X;
-    *y -= PADDING_Y;
+void settings_menu_action(BUTTON *button) {
+    if (button == back_btn) {
+        show_scene(&g_menu_scene);
+    }
 }
 
 /**
@@ -108,21 +44,36 @@ void settings_show() {
     // create a new menu
     settings_menu = gui_menu_create();
 
+    // setup the action callback for the menu
+    settings_menu->on_action = settings_menu_action;
+
     // get the width and the height of the window
     float width = (float) window_get_width();
     float height = (float) window_get_height();
 
-    gui_menu_button(settings_menu, "Settings", 35, height - 55, 150, 30);
+    // add the buttons for changing key binds for the first player
+    player_1_up_btn = gui_menu_button(settings_menu, "Change", (width - 150.0f) - 70.0f, PADDING_Y * 3 - 5, 150, 30);
+    player_1_down_btn = gui_menu_button(settings_menu, "Change", (width - 150.0f) - 70.0f, PADDING_Y * 4 - 5, 150, 30);
+
+    // add the buttons for changing key binds for the second player
+    player_2_up_btn = gui_menu_button(settings_menu, "Change", (width - 150.0f) - 70.0f, PADDING_Y * 6 - 5, 150, 30);
+    player_2_down_btn = gui_menu_button(settings_menu, "Change", (width - 150.0f) - 70.0f, PADDING_Y * 7 - 5, 150, 30);
+
+    // select the first button
+    player_1_up_btn->selected = 1;
+
+    // add the back button
+    back_btn = gui_menu_button(settings_menu, "Back", 35, height - 55, 150, 30);
 }
 
 /**
- * Gets called when ever a key release event happens
+ * Gets called when ever a key press event happens
  *
- * @param key_code key code of the key that was released
+ * @param key_code key code of the key that was pressed
  * @param mods any modifiers that came with the event
  */
 
-void settings_key_release(int key_code, int mods) {
+void settings_key_press(int key_code, int mods) {
     // if there is a key that is currently being modified
     if (current_bind != NULL) {
         // if the escape key was pressed
@@ -152,12 +103,25 @@ void settings_key_release(int key_code, int mods) {
         // save the settings to the file
         settings_save();
     } else {
+        // pass the call to the menu
+        gui_menu_handle_key(settings_menu, key_code, mods);
+
         // if the escape key is released
         if (key_code == GLFW_KEY_ESCAPE) {
             // show the main menu scene
             show_scene(&g_menu_scene);
         }
     }
+}
+
+void settings_render_key(char *description, int key_code, float x, float y) {
+    // get the key name
+    char key_bind[256];
+    sprintf(key_bind, "-> %s", key_get_name(key_code));
+
+    // render the key name
+    render_text(description, x, y);
+    render_text(key_bind, x * 2.0f, y);
 }
 
 void settings_render(float width, float height, float mouse_x, float mouse_y, float time_step) {
@@ -173,35 +137,25 @@ void settings_render(float width, float height, float mouse_x, float mouse_y, fl
         return;
     }
 
-    // define the starting position of the ui
-    int x = 0, y = 0;
+    // render the settings label
+    render_text("> Settings", PADDING_X, PADDING_Y);
 
-    // start the main settings section
-    start_section("> Settings", &x, &y);
-    {
-        // start the player 1 section
-        start_sub_section("> Player 1", &x, &y);
-        {
-            item(settings_get_bind(1, ACTION_MOVE_UP), &x, &y, width);
-            item(settings_get_bind(1, ACTION_MOVE_DOWN), &x, &y, width);
-        }
-        end_sub_section(&x, &y);
+    // render the settings label
+    render_text("> Player 1", PADDING_X * 2, PADDING_Y * 2);
 
-        // start the player 2 section
-        start_sub_section("> Player 2", &x, &y);
-        {
-            item(settings_get_bind(0, ACTION_MOVE_UP), &x, &y, width);
-            item(settings_get_bind(0, ACTION_MOVE_DOWN), &x, &y, width);
-        }
-        end_sub_section(&x, &y);
-    }
-    end_section(&x, &y);
+    // render keybindings for the first player
+    settings_render_key("Move up", settings_get_bind(1, ACTION_MOVE_UP)->key_code, PADDING_X * 3.5f, PADDING_Y * 3);
+    settings_render_key("Move down", settings_get_bind(1, ACTION_MOVE_DOWN)->key_code, PADDING_X * 3.5f, PADDING_Y * 4);
 
-    // add the back button that takes you to the main menu
-    //if (gui_button("Back", 35, height - 55, 150, 30)) {
-    // if the button is clicked show the main menu scene
-    //    show_scene(&g_menu_scene);
-    // }
+    // render the settings label
+    render_text("> Player 2", PADDING_X * 2, PADDING_Y * 5);
+
+    // render keybindings for the second player
+    settings_render_key("Move up", settings_get_bind(0, ACTION_MOVE_UP)->key_code, PADDING_X * 3.5f, PADDING_Y * 6);
+    settings_render_key("Move down", settings_get_bind(0, ACTION_MOVE_DOWN)->key_code, PADDING_X * 3.5f, PADDING_Y * 7);
+
+    // render the menu
+    gui_menu_render(settings_menu, width, height, mouse_y, mouse_y, time_step);
 }
 
 /**
@@ -215,7 +169,7 @@ void settings_close() {
 
 SCENE g_settings_scene = {
         .show           =   settings_show,
-        .key_release    =   settings_key_release,
+        .key_press      =   settings_key_press,
         .render         =   settings_render,
         .close          =   settings_close
 };

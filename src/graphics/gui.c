@@ -107,9 +107,11 @@ void gui_menu_render(MENU *menu, float width, float height, float mouse_x, float
         // get the current button
         BUTTON *button = (BUTTON *) iterator->data;
 
+        // get the location of the button
         float x = button->x;
         float y = button->y;
 
+        // get the size of the button
         float btn_width = button->width;
         float btn_height = button->height;
 
@@ -123,15 +125,6 @@ void gui_menu_render(MENU *menu, float width, float height, float mouse_x, float
 
         // draw the label of the button
         render_centered_text(button->label, x + btn_width / 2.0f - 3, y + btn_height / 2.0f + 2, 0xffeeeeee);
-
-        // check if the button was clicked
-        if (mouse_is_clicked(x, y, btn_width, btn_height)) {
-            // if the action callback is provided
-            if (menu->on_action != NULL) {
-                // call the callback with the button
-                menu->on_action(button);
-            }
-        }
 
         // get the next iterator
         iterator = iterator->next;
