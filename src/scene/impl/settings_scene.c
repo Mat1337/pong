@@ -17,12 +17,12 @@ MENU *settings_menu = NULL;
 BUTTON *back_btn;
 
 // pointer to the change buttons for the first player
-BUTTON *player_1_up_btn;
-BUTTON *player_1_down_btn;
+BIND_BUTTON player_1_up_btn;
+BIND_BUTTON player_1_down_btn;
 
 // pointer to the change buttons for the second player
-BUTTON *player_2_up_btn;
-BUTTON *player_2_down_btn;
+BIND_BUTTON player_2_up_btn;
+BIND_BUTTON player_2_down_btn;
 
 /**
  * Gets called when the button is clicked
@@ -33,7 +33,33 @@ BUTTON *player_2_down_btn;
 void settings_menu_action(BUTTON *button) {
     if (button == back_btn) {
         show_scene(&g_menu_scene);
+    } else {
+        if (button == player_1_up_btn.button) {
+            current_bind = player_1_up_btn.bind;
+        } else if (button == player_1_down_btn.button) {
+            current_bind = player_1_down_btn.bind;
+        } else if (button == player_2_up_btn.button) {
+            current_bind = player_2_up_btn.bind;
+        } else if (button == player_2_down_btn.button) {
+            current_bind = player_2_down_btn.bind;
+        }
     }
+}
+
+/**
+ * Adds a button for the bind
+ * @param id id of the player
+ * @param action action of the bind
+ * @param x x coordinate on the screen
+ * @param y y coordinate on the screen
+ * @return button
+ */
+
+BIND_BUTTON settings_bind(int id, int action, float x, float y) {
+    return (BIND_BUTTON) {
+            gui_menu_button(settings_menu, "Change", x, y, 150, 30),
+            settings_get_bind(id, action)
+    };
 }
 
 /**
@@ -52,15 +78,15 @@ void settings_show() {
     float height = (float) window_get_height();
 
     // add the buttons for changing key binds for the first player
-    player_1_up_btn = gui_menu_button(settings_menu, "Change", (width - 150.0f) - 70.0f, PADDING_Y * 3 - 5, 150, 30);
-    player_1_down_btn = gui_menu_button(settings_menu, "Change", (width - 150.0f) - 70.0f, PADDING_Y * 4 - 5, 150, 30);
+    player_1_up_btn = settings_bind(1, ACTION_MOVE_UP, (width - 150.0f) - 70.0f, PADDING_Y * 3 - 5);
+    player_1_down_btn = settings_bind(1, ACTION_MOVE_DOWN, (width - 150.0f) - 70.0f, PADDING_Y * 4 - 5);
 
     // add the buttons for changing key binds for the second player
-    player_2_up_btn = gui_menu_button(settings_menu, "Change", (width - 150.0f) - 70.0f, PADDING_Y * 6 - 5, 150, 30);
-    player_2_down_btn = gui_menu_button(settings_menu, "Change", (width - 150.0f) - 70.0f, PADDING_Y * 7 - 5, 150, 30);
+    player_2_up_btn = settings_bind(0, ACTION_MOVE_UP, (width - 150.0f) - 70.0f, PADDING_Y * 6 - 5);
+    player_2_down_btn = settings_bind(0, ACTION_MOVE_DOWN, (width - 150.0f) - 70.0f, PADDING_Y * 7 - 5);
 
     // select the first button
-    player_1_up_btn->selected = 1;
+    player_1_up_btn.button->selected = 1;
 
     // add the back button
     back_btn = gui_menu_button(settings_menu, "Back", 35, height - 55, 150, 30);
@@ -113,6 +139,15 @@ void settings_key_press(int key_code, int mods) {
         }
     }
 }
+
+/**
+ * Renders the key to th screen
+ *
+ * @param description description of the key
+ * @param key_code key code of the key
+ * @param x x coordinate on the screen
+ * @param y y coordinate on the screen
+ */
 
 void settings_render_key(char *description, int key_code, float x, float y) {
     // get the key name

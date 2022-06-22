@@ -7,6 +7,11 @@
 
 #include "../scenes.h"
 
+typedef struct {
+    BUTTON *button;
+    BIND *bind;
+} BIND_BUTTON;
+
 extern SCENE g_settings_scene;
 
 #endif //PONG_CLONE_SETTINGS_SCENE_H
