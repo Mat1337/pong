@@ -68,6 +68,15 @@ void menu_show() {
  */
 
 void menu_key_press(int key_code, int mods) {
+    // if the escape key is pressed
+    if (key_code == GLFW_KEY_ESCAPE) {
+        // close the window
+        window_close();
+
+        // return out of the method
+        return;
+    }
+
     // pass the call to the menu
     gui_menu_handle_key(main_menu, key_code, mods);
 }
