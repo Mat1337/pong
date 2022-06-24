@@ -6,8 +6,6 @@
 #include "font.h"
 #include "shader.h"
 
-#include <math.h>
-
 // location of the color uniform in the texture shader
 int shader_texture_color_uniform;
 

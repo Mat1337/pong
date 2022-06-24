@@ -15,6 +15,8 @@
 #include "framebuffer.h"
 #include "texture.h"
 
+#include "../util/math.h"
+
 typedef struct {
     char *text;
     float x;
