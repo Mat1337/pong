@@ -1,15 +1,19 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
 # pong-clone
+
 this project is a clone of the original pong game written in C programing language for a university project
 
 # showcase
 
-[![menu](https://i.imgur.com/MioH0Tn.png)](https://i.imgur.com/MioH0Tn.png)
+[![menu](static/menu.png)](static/menu.png)
 
-[![settings](https://i.imgur.com/kDxCdzF.png)](https://i.imgur.com/kDxCdzF.png)
+[![settings](static/settings.png)](static/settings.png)
 
-[![game](https://i.imgur.com/DXOE6P1.png)](https://i.imgur.com/DXOE6P1.png)
+[![paused](static/paused.png)](static/paused.png)
+
+[![game](static/game.png)](static/game.png)
+
 # dependencies
 
 > [glfw](https://github.com/glfw/glfw)
@@ -17,7 +21,7 @@ this project is a clone of the original pong game written in C programing langua
 > [glad](https://github.com/Dav1dde/glad)
 >
 >[freetype](https://github.com/freetype/freetype)
-> 
+>
 > [stb](https://github.com/nothings/stb)
 
 # building
