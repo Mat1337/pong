@@ -27,7 +27,7 @@ this project is a clone of the original pong game written in C programing langua
 # building
 
 ```
-    git clone https://github.com/Mat1337/pong-clone.git --recurse-submodules
+    git clone https://github.com/Mat1337/pong.git --recurse-submodules
 ```
 
 ```
