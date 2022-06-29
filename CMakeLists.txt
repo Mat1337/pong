@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.5)
 set(CMAKE_C_STANDARD 99)
 
 # set the name of the project
-set(NAME pong_clone)
+set(NAME pong)
 
 # set the project name
 project(${NAME} C)
