@@ -7,7 +7,7 @@
 
 #define BALL_RADIUS 10.0f
 #define BALL_SPEED 350.0f
-#define BALL_SPEED_INCREMENT 15.0f
+#define BALL_SPEED_INCREMENT 25.0f
 
 #include "player.h"
 #include "../util/math.h"

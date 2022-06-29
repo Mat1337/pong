@@ -271,14 +271,6 @@ void window_run() {
         // render the texture
         render_textured_quad(0, 0, width, height);
 
-        // render the minimize button
-        render_text("-", width - 80 - 0.5f, 20, 0xff333333);
-        render_text("-", width - 80, 20);
-
-        // render the maximize button
-        render_text("X", width - 50 - 0.5f, 20, 0xff333333);
-        render_text("X", width - 50, 20);
-
         // swap front and back buffers
         glfwSwapBuffers(g_window.handle);
 
