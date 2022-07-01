@@ -31,7 +31,7 @@ this project is a clone of the original pong game written in C programing langua
 ```
 
 ```
-    cd pong-clone
+    cd pong
     mkdir build
     cd build
     cmake ..
